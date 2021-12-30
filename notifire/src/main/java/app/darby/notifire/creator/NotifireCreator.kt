@@ -3,9 +3,9 @@
 package app.darby.notifire.creator
 
 import android.content.Context
-import app.darby.notifire.BigTextStyleBuilder
-import app.darby.notifire.exception.NotInitializedYetException
 import app.darby.notifire.Notifire
+import app.darby.notifire.exception.NotInitializedYetException
+import app.darby.notifire.provider.BigPictureStyleBuilderProvider
 import app.darby.notifire.provider.BigTextStyleBuilderProvider
 import app.darby.notifire.provider.NotifireBuilderProvider
 
@@ -14,7 +14,7 @@ fun notification(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: NotifireBuilderProvider
+    block: NotifireBuilderProvider,
 ): Notifire.Builder {
     if (!Notifire.isConfigurationInitialized) {
         throw NotInitializedYetException("Notify.configurations property is not initialized yet.")
@@ -32,15 +32,27 @@ fun notificationAsBigTextStyle(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigTextStyleBuilderProvider
-): BigTextStyleBuilder {
-    return notification(
-        applicationContext,
-        smallIconResId,
-        channelId,
-        block as NotifireBuilderProvider
-    ).asBigTextStyle()
-}
+    block: BigTextStyleBuilderProvider,
+) = notification(
+    applicationContext,
+    smallIconResId,
+    channelId,
+    block as NotifireBuilderProvider
+).asBigTextStyle()
+
+fun notificationAsBigPictureStyle(
+    applicationContext: Context,
+    smallIconResId: Int? = null,
+    channelId: String? = null,
+    block: BigPictureStyleBuilderProvider,
+) = notification(
+    applicationContext,
+    smallIconResId,
+    channelId,
+    block as NotifireBuilderProvider
+).asBigPictureStyle()
+
+
 
 
 

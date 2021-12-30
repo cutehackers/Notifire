@@ -252,6 +252,8 @@ class Notifire private constructor(
         fun notify() = Notifire(context, notification = _builder.build(), this.id).notify()
 
         fun asBigTextStyle() = BigTextStyleBuilder(context, _builder)
+
+        fun asBigPictureStyle() = BigPictureStyleBuilder(context, _builder)
     }
 
     companion object {
