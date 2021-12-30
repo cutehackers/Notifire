@@ -7,13 +7,11 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 
 class BigPictureStyleBuilder(context: Context, _builder: NotificationCompat.Builder) :
-    Notifire.Builder(context, _builder) {
-
-    private val style = NotificationCompat.BigPictureStyle()
-
-    init {
-        _builder.setStyle(style)
-    }
+    StyleBuilder<NotificationCompat.BigPictureStyle>(
+        context,
+        _builder,
+        { NotificationCompat.BigPictureStyle() }
+    ) {
 
     /**
      * Overrides ContentTitle in the big form of the template.
