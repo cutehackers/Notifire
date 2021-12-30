@@ -13,7 +13,7 @@ class MessagingStyleBuilder : StyleBuilder<NotificationCompat.MessagingStyle> {
     constructor(
         context: Context,
         _builder: NotificationCompat.Builder,
-        userDisplayName: CharSequence,
+        userDisplayName: CharSequence
     ) : super(
         context,
         _builder,
@@ -23,7 +23,7 @@ class MessagingStyleBuilder : StyleBuilder<NotificationCompat.MessagingStyle> {
     constructor(
         context: Context,
         _builder: NotificationCompat.Builder,
-        user: Person,
+        user: Person
     ) : super(
         context,
         _builder,

@@ -12,6 +12,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.Person
 
 /**
  * A notification builder.
@@ -254,6 +255,14 @@ class Notifire private constructor(
         fun asBigTextStyle() = BigTextStyleBuilder(context, _builder)
 
         fun asBigPictureStyle() = BigPictureStyleBuilder(context, _builder)
+
+        fun asInboxStyle() = InboxStyleBuilder(context, _builder)
+
+        @Deprecated(message = "deprecated, use fun asMessagingStyle(user: Person)")
+        fun asMessagingStyle(userDisplayName: CharSequence) =
+            MessagingStyleBuilder(context, _builder, userDisplayName)
+
+        fun asMessagingStyle(user: Person) = MessagingStyleBuilder(context, _builder, user)
     }
 
     companion object {
