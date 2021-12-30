@@ -1,21 +1,20 @@
-package app.darby.notifire
+package app.darby.notifire.style
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
 
 /**
- * InboxStyle notification builder
+ * BigTextStyle notification builder
  */
-class InboxStyleBuilder(context: Context, _builder: NotificationCompat.Builder) :
-    StyleBuilder<NotificationCompat.InboxStyle>(
+class BigTextStyleBuilder(context: Context, _builder: NotificationCompat.Builder) :
+    StyleBuilder<NotificationCompat.BigTextStyle>(
         context,
         _builder,
-        { NotificationCompat.InboxStyle() }
+        { NotificationCompat.BigTextStyle() }
     ) {
 
     /**
-     * This title is slightly different than regular title, since I know INBOX_STYLE is
-     * available.
+     * Overrides ContentTitle in the big form of the template.
      */
     fun bigContentTitle(contentTitle: CharSequence) = apply {
         style.setBigContentTitle(contentTitle)
@@ -31,9 +30,9 @@ class InboxStyleBuilder(context: Context, _builder: NotificationCompat.Builder) 
     }
 
     /**
-     * Append a line to the digest section of the Inbox notification.
+     * Overrides ContentText in the big form of the template.
      */
-    fun addLine(message: CharSequence) = apply {
-        style.addLine(message)
+    fun bigText(longerText: CharSequence) = apply {
+        style.bigText(longerText)
     }
 }

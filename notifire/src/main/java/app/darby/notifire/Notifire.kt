@@ -13,6 +13,10 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
+import app.darby.notifire.style.BigPictureStyleBuilder
+import app.darby.notifire.style.BigTextStyleBuilder
+import app.darby.notifire.style.InboxStyleBuilder
+import app.darby.notifire.style.MessagingStyleBuilder
 
 /**
  * A notification builder.

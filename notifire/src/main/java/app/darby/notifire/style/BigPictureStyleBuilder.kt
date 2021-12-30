@@ -1,4 +1,4 @@
-package app.darby.notifire
+package app.darby.notifire.style
 
 import android.content.Context
 import android.graphics.Bitmap

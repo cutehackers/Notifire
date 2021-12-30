@@ -1,7 +1,8 @@
-package app.darby.notifire
+package app.darby.notifire.style
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
+import app.darby.notifire.Notifire
 
 open class StyleBuilder<out T : NotificationCompat.Style>(
     context: Context,

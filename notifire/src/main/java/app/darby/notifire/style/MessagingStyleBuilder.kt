@@ -1,4 +1,4 @@
-package app.darby.notifire
+package app.darby.notifire.style
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
