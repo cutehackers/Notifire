@@ -51,8 +51,3 @@ fun notificationAsBigPictureStyle(
     channelId,
     block as NotifireBuilderProvider
 ).asBigPictureStyle()
-
-
-
-
-

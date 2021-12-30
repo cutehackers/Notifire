@@ -3,6 +3,9 @@ package app.darby.notifire
 import android.content.Context
 import androidx.core.app.NotificationCompat
 
+/**
+ * InboxStyle notification builder
+ */
 class InboxStyleBuilder(context: Context, _builder: NotificationCompat.Builder) :
     StyleBuilder<NotificationCompat.InboxStyle>(
         context,

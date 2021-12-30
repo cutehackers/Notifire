@@ -3,6 +3,9 @@ package app.darby.notifire
 import android.content.Context
 import androidx.core.app.NotificationCompat
 
+/**
+ * BigTextStyle notification builder
+ */
 class BigTextStyleBuilder(context: Context, _builder: NotificationCompat.Builder) :
     StyleBuilder<NotificationCompat.BigTextStyle>(
         context,

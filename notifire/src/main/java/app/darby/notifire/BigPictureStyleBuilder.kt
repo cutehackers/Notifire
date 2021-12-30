@@ -6,6 +6,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 
+/**
+ * BigPictureStyle notification builder
+ */
 class BigPictureStyleBuilder(context: Context, _builder: NotificationCompat.Builder) :
     StyleBuilder<NotificationCompat.BigPictureStyle>(
         context,
