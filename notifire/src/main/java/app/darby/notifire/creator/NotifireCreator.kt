@@ -17,7 +17,7 @@ fun notification(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: NotifireBuilderProvider
+    block: NotifireBuilderProvider,
 ): Notifire.Builder {
     if (!Notifire.isConfigurationInitialized) {
         throw NotInitializedYetException("Notify.configurations property is not initialized yet.")
@@ -35,7 +35,7 @@ fun notificationAsBigTextStyle(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigTextStyleBuilderProvider
+    block: BigTextStyleBuilderProvider,
 ) = notification(
     applicationContext,
     smallIconResId,
@@ -47,7 +47,7 @@ fun notificationAsBigPictureStyle(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigPictureStyleBuilderProvider
+    block: BigPictureStyleBuilderProvider,
 ) = notification(
     applicationContext,
     smallIconResId,
@@ -59,7 +59,7 @@ fun notificationAsInboxStyle(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: InboxStyleBuilderProvider
+    block: InboxStyleBuilderProvider,
 ) = notification(
     applicationContext,
     smallIconResId,
@@ -75,7 +75,7 @@ fun notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
     userDisplayName: CharSequence,
-    block: MessagingStyleBuilderProvider
+    block: MessagingStyleBuilderProvider,
 ) = notification(
     applicationContext,
     smallIconResId,
@@ -88,7 +88,7 @@ fun notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
     user: Person,
-    block: MessagingStyleBuilderProvider
+    block: MessagingStyleBuilderProvider,
 ) = notification(
     applicationContext,
     smallIconResId,

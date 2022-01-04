@@ -44,7 +44,8 @@ import app.darby.notifire.style.MessagingStyleBuilder
  *     .notify()
  *
  *  Cancel notification
- *   notifire.cancel()
+ *   Notifire.cancel(applicationContext, notifire)
+ *   Notifire.cancel(applicationContext, notifire, "tag")
  *
  *  Cancel all notifications
  *   Notifire.cancelAll(applicationContext)
@@ -83,28 +84,9 @@ import app.darby.notifire.style.MessagingStyleBuilder
  * @param context application context
  */
 class Notifire private constructor(
-    private val context: Context,
-    private val notification: Notification,
-    private val id: Int,
+    val notification: Notification,
+    val id: Int,
 ) {
-    private val manager = NotificationManagerCompat.from(context)
-
-    fun notify() = apply {
-        manager.notify(id, notification)
-    }
-
-    fun notify(tag: String?) = apply {
-        manager.notify(tag, id, notification)
-    }
-
-    fun cancel() {
-        manager.cancel(id)
-    }
-
-    fun cancel(tag: String?) {
-        manager.cancel(tag, id)
-    }
-
     open class Builder(
         private val context: Context,
         private val _builder: NotificationCompat.Builder,
@@ -254,7 +236,13 @@ class Notifire private constructor(
             return NotificationCompat.Action.Builder(iconResId, title, intent).build()
         }
 
-        fun notify() = Notifire(context, notification = _builder.build(), this.id).notify()
+        fun notify(): Notifire {
+            return notify(context, Notifire(_builder.build(), id))
+        }
+
+        fun notify(tag: String?): Notifire {
+            return notify(context, Notifire(_builder.build(), id), tag)
+        }
 
         fun asBigTextStyle() = BigTextStyleBuilder(context, _builder)
 
@@ -285,8 +273,32 @@ class Notifire private constructor(
             return Builder(context, NotificationCompat.Builder(context, channelId))
         }
 
+        internal fun notify(context: Context, notifire: Notifire): Notifire {
+            val manager = NotificationManagerCompat.from(context)
+            return notifire.apply {
+                manager.notify(id, notification)
+            }
+        }
+
+        internal fun notify(context: Context, notifire: Notifire, tag: String?): Notifire {
+            val manager = NotificationManagerCompat.from(context)
+            return notifire.apply {
+                manager.notify(tag, id, notification)
+            }
+        }
+
+        fun cancel(context: Context, notifire: Notifire) {
+            val manager = NotificationManagerCompat.from(context)
+            manager.cancel(notifire.id)
+        }
+
+        fun cancel(context: Context, notifire: Notifire, tag: String?) {
+            val manager = NotificationManagerCompat.from(context)
+            manager.cancel(tag, notifire.id)
+        }
+
         fun cancelAll(context: Context) {
-            val manager = NotificationManagerCompat.from(context.applicationContext)
+            val manager = NotificationManagerCompat.from(context)
             manager.cancelAll()
         }
 

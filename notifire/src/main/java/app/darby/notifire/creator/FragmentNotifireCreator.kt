@@ -14,7 +14,7 @@ import app.darby.notifire.provider.NotifireBuilderProvider
 fun Fragment.notification(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: NotifireBuilderProvider
+    block: NotifireBuilderProvider,
 ) = withApplicationContext {
     notification(
         applicationContext = it,
@@ -27,7 +27,7 @@ fun Fragment.notification(
 fun Fragment.notificationAsBigTextStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigTextStyleBuilderProvider
+    block: BigTextStyleBuilderProvider,
 ) = withApplicationContext {
     notificationAsBigTextStyle(
         applicationContext = it,
@@ -40,7 +40,7 @@ fun Fragment.notificationAsBigTextStyle(
 fun Fragment.notificationAsBigPictureStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigPictureStyleBuilderProvider
+    block: BigPictureStyleBuilderProvider,
 ) = withApplicationContext {
     notificationAsBigPictureStyle(
         applicationContext = it,
@@ -53,7 +53,7 @@ fun Fragment.notificationAsBigPictureStyle(
 fun Fragment.notificationAsInboxStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: InboxStyleBuilderProvider
+    block: InboxStyleBuilderProvider,
 ) = withApplicationContext {
     notificationAsInboxStyle(
         applicationContext = it,
@@ -71,7 +71,7 @@ fun Fragment.notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
     userDisplayName: CharSequence,
-    block: MessagingStyleBuilderProvider
+    block: MessagingStyleBuilderProvider,
 ) = withApplicationContext {
     notificationAsMessagingStyle(
         applicationContext = it,
@@ -86,7 +86,7 @@ fun Fragment.notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
     user: Person,
-    block: MessagingStyleBuilderProvider
+    block: MessagingStyleBuilderProvider,
 ) = withApplicationContext {
     notificationAsMessagingStyle(
         applicationContext = it,

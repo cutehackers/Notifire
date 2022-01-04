@@ -14,7 +14,7 @@ import app.darby.notifire.provider.NotifireBuilderProvider
 fun Service.notification(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: NotifireBuilderProvider
+    block: NotifireBuilderProvider,
 ): Notifire {
     return notification(
         applicationContext = applicationContext,
@@ -27,7 +27,7 @@ fun Service.notification(
 fun Service.notificationAsBigTextStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigTextStyleBuilderProvider
+    block: BigTextStyleBuilderProvider,
 ) = notificationAsBigTextStyle(
     applicationContext,
     smallIconResId,
@@ -38,7 +38,7 @@ fun Service.notificationAsBigTextStyle(
 fun Service.notificationAsBigPictureStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigPictureStyleBuilderProvider
+    block: BigPictureStyleBuilderProvider,
 ) = notificationAsBigPictureStyle(
     applicationContext,
     smallIconResId,
@@ -49,7 +49,7 @@ fun Service.notificationAsBigPictureStyle(
 fun Service.notificationAsInboxStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: InboxStyleBuilderProvider
+    block: InboxStyleBuilderProvider,
 ) = notificationAsInboxStyle(
     applicationContext,
     smallIconResId,
@@ -64,7 +64,7 @@ fun Service.notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
     userDisplayName: CharSequence,
-    block: MessagingStyleBuilderProvider
+    block: MessagingStyleBuilderProvider,
 ) = notificationAsMessagingStyle(
     applicationContext,
     smallIconResId,
@@ -77,7 +77,7 @@ fun Service.notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
     user: Person,
-    block: MessagingStyleBuilderProvider
+    block: MessagingStyleBuilderProvider,
 ) = notificationAsMessagingStyle(
     applicationContext,
     smallIconResId,

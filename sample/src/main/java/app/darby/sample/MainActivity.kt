@@ -47,6 +47,6 @@ class MainActivity : AppCompatActivity() {
             .summaryText("content summary text")
             .notify()
 
-        notifire.cancel()
+        Notifire.cancel(applicationContext, notifire)
     }
 }
