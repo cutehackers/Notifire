@@ -12,8 +12,8 @@ class SampleApplication : Application() {
 
     private fun setUpNotifire() {
         Notifire.initialize {
-            // smallIconResId()
-            // channelId()
+            smallIconResId(R.drawable.ic_notification_small_white_24dp)
+            channelId(getString(R.string.notification_channel_id, "default"))
         }
     }
 }

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Sample</string>
+    <string name="action_launch">Launch</string>
+
+    <string name="notification_channel_id">notifire_channel_%s</string>
+    <string name="notification_default_channel_name">Notifire</string>
+    <string name="notification_default_channel_description">A notification channel for Notifire</string>
 </resources>

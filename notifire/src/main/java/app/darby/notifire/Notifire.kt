@@ -81,7 +81,8 @@ import app.darby.notifire.style.MessagingStyleBuilder
  * ref: notification anatomy
  *  https://developer.android.com/guide/topics/ui/notifiers/notifications#Templates
  *
- * @param context application context
+ * @param notification Android notification instance
+ * @param id notification id
  */
 class Notifire private constructor(
     val notification: Notification,
