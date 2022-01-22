@@ -5,16 +5,15 @@ package app.darby.notifire.creator
 import android.app.Service
 import androidx.core.app.Person
 import app.darby.notifire.Notifire
-import app.darby.notifire.provider.BigPictureStyleBuilderProvider
-import app.darby.notifire.provider.BigTextStyleBuilderProvider
-import app.darby.notifire.provider.InboxStyleBuilderProvider
-import app.darby.notifire.provider.MessagingStyleBuilderProvider
-import app.darby.notifire.provider.NotifireBuilderProvider
+import app.darby.notifire.style.BigPictureStyleBuilder
+import app.darby.notifire.style.BigTextStyleBuilder
+import app.darby.notifire.style.InboxStyleBuilder
+import app.darby.notifire.style.MessagingStyleBuilder
 
 fun Service.notification(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: NotifireBuilderProvider,
+    block: Notifire.Builder.() -> Unit,
 ): Notifire {
     return notification(
         applicationContext = applicationContext,
@@ -27,7 +26,7 @@ fun Service.notification(
 fun Service.notificationAsBigTextStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigTextStyleBuilderProvider,
+    block: BigTextStyleBuilder.() -> Unit,
 ) = notificationAsBigTextStyle(
     applicationContext,
     smallIconResId,
@@ -38,34 +37,34 @@ fun Service.notificationAsBigTextStyle(
 fun Service.notificationAsBigPictureStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigPictureStyleBuilderProvider,
+    block: BigPictureStyleBuilder.() -> Unit,
 ) = notificationAsBigPictureStyle(
     applicationContext,
     smallIconResId,
     channelId,
-    block as NotifireBuilderProvider
+    block
 ).notify()
 
 fun Service.notificationAsInboxStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: InboxStyleBuilderProvider,
+    block: InboxStyleBuilder.() -> Unit,
 ) = notificationAsInboxStyle(
     applicationContext,
     smallIconResId,
     channelId,
-    block as NotifireBuilderProvider
+    block
 ).notify()
 
 fun Service.notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
     user: Person,
-    block: MessagingStyleBuilderProvider,
+    block: MessagingStyleBuilder.() -> Unit,
 ) = notificationAsMessagingStyle(
     applicationContext,
     smallIconResId,
     channelId,
     user,
-    block as NotifireBuilderProvider
+    block
 ).notify()

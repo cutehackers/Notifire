@@ -5,16 +5,16 @@ package app.darby.notifire.creator
 import android.content.Context
 import androidx.core.app.Person
 import androidx.fragment.app.Fragment
-import app.darby.notifire.provider.BigPictureStyleBuilderProvider
-import app.darby.notifire.provider.BigTextStyleBuilderProvider
-import app.darby.notifire.provider.InboxStyleBuilderProvider
-import app.darby.notifire.provider.MessagingStyleBuilderProvider
-import app.darby.notifire.provider.NotifireBuilderProvider
+import app.darby.notifire.Notifire
+import app.darby.notifire.style.BigPictureStyleBuilder
+import app.darby.notifire.style.BigTextStyleBuilder
+import app.darby.notifire.style.InboxStyleBuilder
+import app.darby.notifire.style.MessagingStyleBuilder
 
 fun Fragment.notification(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: NotifireBuilderProvider,
+    block: Notifire.Builder.() -> Unit,
 ) = withApplicationContext {
     notification(
         applicationContext = it,
@@ -27,7 +27,7 @@ fun Fragment.notification(
 fun Fragment.notificationAsBigTextStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigTextStyleBuilderProvider,
+    block: BigTextStyleBuilder.() -> Unit,
 ) = withApplicationContext {
     notificationAsBigTextStyle(
         applicationContext = it,
@@ -40,7 +40,7 @@ fun Fragment.notificationAsBigTextStyle(
 fun Fragment.notificationAsBigPictureStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigPictureStyleBuilderProvider,
+    block: BigPictureStyleBuilder.() -> Unit,
 ) = withApplicationContext {
     notificationAsBigPictureStyle(
         applicationContext = it,
@@ -53,7 +53,7 @@ fun Fragment.notificationAsBigPictureStyle(
 fun Fragment.notificationAsInboxStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: InboxStyleBuilderProvider,
+    block: InboxStyleBuilder.() -> Unit,
 ) = withApplicationContext {
     notificationAsInboxStyle(
         applicationContext = it,
@@ -67,7 +67,7 @@ fun Fragment.notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
     user: Person,
-    block: MessagingStyleBuilderProvider,
+    block: MessagingStyleBuilder.() -> Unit,
 ) = withApplicationContext {
     notificationAsMessagingStyle(
         applicationContext = it,
