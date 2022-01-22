@@ -482,6 +482,22 @@ class Notifire private constructor(
             _builder.setSortKey(sortKey)
         }
 
+        /**
+         * Apply an extender to this notification builder. Extenders may be used to add
+         * metadata or change options on this builder.
+         */
+        fun extend(extender: NotificationCompat.Extender) = apply {
+            _builder.extend(extender)
+        }
+
+        /**
+         * Apply an extender to this notification builder. Extenders may be used to add
+         * metadata or change options on this builder.
+         */
+        fun extend(extender: (NotificationCompat.Builder) -> NotificationCompat.Builder) = apply {
+            _builder.extend(extender)
+        }
+
         fun progress(max: Int, progress: Int, indeterminate: Boolean) = apply {
             _builder.setProgress(max, progress, indeterminate)
         }
@@ -737,10 +753,6 @@ class Notifire private constructor(
         fun asBigPictureStyle() = BigPictureStyleBuilder(context, _builder)
 
         fun asInboxStyle() = InboxStyleBuilder(context, _builder)
-
-        @Deprecated(message = "deprecated, use fun asMessagingStyle(user: Person)")
-        fun asMessagingStyle(userDisplayName: CharSequence) =
-            MessagingStyleBuilder(context, _builder, userDisplayName)
 
         fun asMessagingStyle(user: Person) = MessagingStyleBuilder(context, _builder, user)
     }

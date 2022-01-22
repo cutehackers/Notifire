@@ -6,66 +6,54 @@ import android.content.Context
 import androidx.core.app.Person
 import app.darby.notifire.Notifire
 import app.darby.notifire.exception.NotInitializedYetException
-import app.darby.notifire.provider.BigPictureStyleBuilderProvider
-import app.darby.notifire.provider.BigTextStyleBuilderProvider
-import app.darby.notifire.provider.InboxStyleBuilderProvider
-import app.darby.notifire.provider.MessagingStyleBuilderProvider
-import app.darby.notifire.provider.NotifireBuilderProvider
+import app.darby.notifire.style.BigPictureStyleBuilder
+import app.darby.notifire.style.BigTextStyleBuilder
+import app.darby.notifire.style.InboxStyleBuilder
+import app.darby.notifire.style.MessagingStyleBuilder
 
 @Throws(NotInitializedYetException::class)
 fun notification(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: NotifireBuilderProvider,
+    block: Notifire.Builder.() -> Unit,
 ): Notifire.Builder {
-    if (!Notifire.isConfigurationInitialized) {
-        throw NotInitializedYetException("Notify.configurations property is not initialized yet.")
-    }
-    val config = Notifire.configurations
-
-    return Notifire.builder(applicationContext, channelId ?: config.channelId)
-        .smallIcon(smallIconResId ?: config.smallIconResId)
-        .apply {
-            block(this)
-        }
+    return newNotifire(applicationContext, smallIconResId, channelId)
+        .apply(block)
 }
 
 fun notificationAsBigTextStyle(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigTextStyleBuilderProvider,
-) = notification(
-    applicationContext,
-    smallIconResId,
-    channelId,
-    block as NotifireBuilderProvider
-).asBigTextStyle()
+    block: BigTextStyleBuilder.() -> Unit,
+): BigTextStyleBuilder {
+    return newNotifire(applicationContext, smallIconResId, channelId)
+        .asBigTextStyle()
+        .apply(block)
+}
 
 fun notificationAsBigPictureStyle(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: BigPictureStyleBuilderProvider,
-) = notification(
-    applicationContext,
-    smallIconResId,
-    channelId,
-    block as NotifireBuilderProvider
-).asBigPictureStyle()
+    block: BigPictureStyleBuilder.() -> Unit,
+): BigPictureStyleBuilder {
+    return newNotifire(applicationContext, smallIconResId, channelId)
+        .asBigPictureStyle()
+        .apply(block)
+}
 
 fun notificationAsInboxStyle(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    block: InboxStyleBuilderProvider,
-) = notification(
-    applicationContext,
-    smallIconResId,
-    channelId,
-    block as NotifireBuilderProvider
-).asInboxStyle()
+    block: InboxStyleBuilder.() -> Unit,
+): InboxStyleBuilder {
+    return newNotifire(applicationContext, smallIconResId, channelId)
+        .asInboxStyle()
+        .apply(block)
+}
 
 @Deprecated(message = "deprecated, use notificationAsMessagingStyle with Person",
     ReplaceWith("notificationAsMessagingStyle with Person argument")
@@ -75,23 +63,34 @@ fun notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
     userDisplayName: CharSequence,
-    block: MessagingStyleBuilderProvider,
-) = notification(
-    applicationContext,
-    smallIconResId,
-    channelId,
-    block as NotifireBuilderProvider
-).asMessagingStyle(userDisplayName)
+    block: MessagingStyleBuilder.() -> Unit,
+): MessagingStyleBuilder {
+    return newNotifire(applicationContext, smallIconResId, channelId)
+        .asMessagingStyle(userDisplayName)
+        .apply(block)
+}
 
 fun notificationAsMessagingStyle(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,
     user: Person,
-    block: MessagingStyleBuilderProvider,
-) = notification(
-    applicationContext,
-    smallIconResId,
-    channelId,
-    block as NotifireBuilderProvider
-).asMessagingStyle(user)
+    block: MessagingStyleBuilder.() -> Unit,
+): MessagingStyleBuilder {
+    return newNotifire(applicationContext, smallIconResId, channelId)
+        .asMessagingStyle(user)
+        .apply(block)
+}
+
+private fun newNotifire(
+    applicationContext: Context,
+    smallIconResId: Int? = null,
+    channelId: String? = null,
+): Notifire.Builder {
+    if (!Notifire.isConfigurationInitialized) {
+        throw NotInitializedYetException("Notify.configurations property is not initialized yet.")
+    }
+    val config = Notifire.configurations
+    return Notifire.builder(applicationContext, channelId ?: config.channelId)
+        .smallIcon(smallIconResId ?: config.smallIconResId)
+}

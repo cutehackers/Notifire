@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -27,13 +28,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onLaunchClick(view: View) {
+        Toast.makeText(this, "notification", Toast.LENGTH_SHORT).show()
+
         // method 2.
         notification {
             newChannel()
 
-            it.contentTitle("Subject")
-            it.contentText("Hello people. It's Notifire!")
+            contentTitle("Subject")
+            contentText("Hello people. It's Notifire!")
         }
+
+//        notificationAsBigTextStyle {
+//            newChannel()
+//
+//            contentTitle("Subject")
+//            contentText("Hello people. It's Notifire!")
+//            bigText("BigText texts")
+//            bigContentTitle("BigText title")
+//            summaryText("BigText summary")
+//        }
+//
+//        notificationAsBigPictureStyle {
+//
+//        }
+//
+//        notificationAsInboxStyle {
+//
+//        }
+//
+//        val user = Person.Builder().setName("Darby").build()
+//        notificationAsMessagingStyle(user = user) {
+//
+//        }
     }
 
     // method 1.

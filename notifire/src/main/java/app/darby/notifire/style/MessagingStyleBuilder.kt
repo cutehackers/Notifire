@@ -7,28 +7,12 @@ import androidx.core.app.Person
 /**
  * MessagingStyle notification builder
  */
-class MessagingStyleBuilder : StyleBuilder<NotificationCompat.MessagingStyle> {
-
-    @Deprecated("deprecated, use constructor with Person")
-    constructor(
-        context: Context,
-        _builder: NotificationCompat.Builder,
-        userDisplayName: CharSequence
-    ) : super(
-        context,
-        _builder,
-        { NotificationCompat.MessagingStyle(userDisplayName) }
-    )
-
-    constructor(
-        context: Context,
-        _builder: NotificationCompat.Builder,
-        user: Person
-    ) : super(
+class MessagingStyleBuilder(context: Context, _builder: NotificationCompat.Builder, user: Person) :
+    StyleBuilder<NotificationCompat.MessagingStyle>(
         context,
         _builder,
         { NotificationCompat.MessagingStyle(user) }
-    )
+    ) {
 
     /**
      * Sets the title to be displayed on this conversation. May be set to {@code null}.
