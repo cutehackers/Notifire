@@ -55,21 +55,6 @@ fun notificationAsInboxStyle(
         .apply(block)
 }
 
-@Deprecated(message = "deprecated, use notificationAsMessagingStyle with Person",
-    ReplaceWith("notificationAsMessagingStyle with Person argument")
-)
-fun notificationAsMessagingStyle(
-    applicationContext: Context,
-    smallIconResId: Int? = null,
-    channelId: String? = null,
-    userDisplayName: CharSequence,
-    block: MessagingStyleBuilder.() -> Unit,
-): MessagingStyleBuilder {
-    return newNotifire(applicationContext, smallIconResId, channelId)
-        .asMessagingStyle(userDisplayName)
-        .apply(block)
-}
-
 fun notificationAsMessagingStyle(
     applicationContext: Context,
     smallIconResId: Int? = null,

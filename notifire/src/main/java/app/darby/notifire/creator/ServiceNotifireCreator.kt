@@ -57,22 +57,6 @@ fun Service.notificationAsInboxStyle(
     block as NotifireBuilderProvider
 ).notify()
 
-@Deprecated(message = "deprecated, use notificationAsMessagingStyle with Person",
-    ReplaceWith("notificationAsMessagingStyle with Person argument")
-)
-fun Service.notificationAsMessagingStyle(
-    smallIconResId: Int? = null,
-    channelId: String? = null,
-    userDisplayName: CharSequence,
-    block: MessagingStyleBuilderProvider,
-) = notificationAsMessagingStyle(
-    applicationContext,
-    smallIconResId,
-    channelId,
-    userDisplayName,
-    block as NotifireBuilderProvider
-).notify()
-
 fun Service.notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,

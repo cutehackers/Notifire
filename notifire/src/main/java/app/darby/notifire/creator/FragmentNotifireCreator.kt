@@ -63,25 +63,6 @@ fun Fragment.notificationAsInboxStyle(
     ).notify()
 }
 
-
-@Deprecated(message = "deprecated, use notificationAsMessagingStyle with Person",
-    ReplaceWith("notificationAsMessagingStyle with Person argument")
-)
-fun Fragment.notificationAsMessagingStyle(
-    smallIconResId: Int? = null,
-    channelId: String? = null,
-    userDisplayName: CharSequence,
-    block: MessagingStyleBuilderProvider,
-) = withApplicationContext {
-    notificationAsMessagingStyle(
-        applicationContext = it,
-        smallIconResId,
-        channelId,
-        userDisplayName,
-        block
-    ).notify()
-}
-
 fun Fragment.notificationAsMessagingStyle(
     smallIconResId: Int? = null,
     channelId: String? = null,
