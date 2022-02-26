@@ -2,51 +2,98 @@ package app.darby.sample
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import app.darby.notifire.Notifire
 import app.darby.notifire.creator.notification
+import app.darby.notifire.creator.notificationAsBigTextStyle
+import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+
+    private lateinit var viewContainer: View
+    private lateinit var detailsView: TextView
+
+    private lateinit var notificationMgr: NotificationManagerCompat
+    private var currentStylePosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        notificationMgr = NotificationManagerCompat.from(applicationContext);
         setUpView()
     }
 
+    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        Log.d(TAG, "onItemSelected(): position: $position, id: $id")
+        currentStylePosition = position
+        detailsView.text = NOTIFICATION_STYLES_DESCRIPTION[position]
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+    }
+
     private fun setUpView() {
+        viewContainer = findViewById(R.id.viewContainer)
+        detailsView = findViewById(R.id.detailsView)
         findViewById<View>(R.id.launchView).setOnClickListener(::onLaunchClick)
+        findViewById<Spinner>(R.id.notificationStyleSpinner).apply {
+            adapter = ArrayAdapter(
+                this@MainActivity,
+                android.R.layout.simple_spinner_item,
+                NOTIFICATION_STYLES
+            ).also {
+                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            }
+
+            onItemSelectedListener = this@MainActivity
+        }
     }
 
     private fun onLaunchClick(view: View) {
-        Toast.makeText(this, "notification", Toast.LENGTH_SHORT).show()
+        if (!notificationMgr.areNotificationsEnabled()) {
+            Snackbar
+                .make(
+                    viewContainer,
+                    "You need to enable notifications for this app",
+                    Snackbar.LENGTH_LONG
+                )
+                .setAction("ENABLE") {
+                    // Links to this app's notification settings
+                    openNotificationSettingsForApp()
+                }
+                .show()
+            return
+        }
+
+        when (NOTIFICATION_STYLES[currentStylePosition]) {
+            BIG_TEXT_STYLE -> notifyAsBigTextStyle()
+            //BIG_PICTURE_STYLE -> newBigPictureStyleNotification()
+            //INBOX_STYLE -> newInboxStyleNotification()
+            //MESSAGING_STYLE -> newMessagingStyleNotification()
+            else -> {}
+        }
 
         // method 2.
         notification {
-            newChannel()
-
             contentTitle("Subject")
             contentText("Hello people. It's Notifire!")
         }
-
-//        notificationAsBigTextStyle {
-//            newChannel()
-//
-//            contentTitle("Subject")
-//            contentText("Hello people. It's Notifire!")
-//            bigText("BigText texts")
-//            bigContentTitle("BigText title")
-//            summaryText("BigText summary")
-//        }
 //
 //        notificationAsBigPictureStyle {
 //
@@ -62,8 +109,19 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
-    // method 1.
     private fun notifyAsBigTextStyle() {
+        Log.d(TAG, "notifying BigTextStyle notification")
+
+        notificationAsBigTextStyle {
+            contentTitle("Subject")
+            contentText("Hello people. It's Notifire!")
+            bigText("BigText texts")
+            bigContentTitle("BigText title")
+            summaryText("BigText summary")
+        }
+    }
+
+    private fun notifyWithBuilder() {
         val defaultChannelId = getString(R.string.notification_channel_id, "default")
         val notifire = Notifire.builder(this, defaultChannelId)
             .smallIcon(R.drawable.ic_notification_small_white_24dp)
@@ -80,6 +138,7 @@ class MainActivity : AppCompatActivity() {
             //.addAction {
             //    newAction(R.drawable.ic_launcher_foreground, "", null)
             //}
+            // asBigTextStyle() will provide methods for BigTextStyle notification
             .asBigTextStyle()
             .bigText("longer comments")
             .bigContentTitle("content title in the big form")
@@ -90,25 +149,48 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Sample notification channel, this will be edited in a library form.
+     * Helper method for the SnackBar action, i.e., if the user has this application's notifications
+     * disabled, this opens up the dialog to turn them back on after the user requests a
+     * Notification launch.
+     *
+     * IMPORTANT NOTE: You should not do this action unless the user takes an action to see your
+     * Notifications like this sample demonstrates. Spamming users to re-enable your notifications
+     * is a bad idea.
      */
-    private fun newChannel() {
-        val mgr: NotificationManager = getSystemService() ?: throw IllegalStateException()
+    private fun openNotificationSettingsForApp() {
+        // Links to this app's notification settings.
+        val intent = Intent().apply {
+            action = "android.settings.APP_NOTIFICATION_SETTINGS"
+            putExtra("app_package", packageName)
+            putExtra("app_uid", applicationInfo.uid)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = getString(R.string.notification_channel_id, "default")
-            val channelName = getString(R.string.notification_default_channel_name)
-            if (mgr.getNotificationChannel(channelId) == null) {
-                val channel = NotificationChannel(
-                    channelId,
-                    channelName,
-                    NotificationManager.IMPORTANCE_HIGH
-                ).apply {
-                    description = getString(R.string.notification_default_channel_description)
-                }
-
-                mgr.createNotificationChannel(channel)
-            }
+            // for Android 8 and above
+            putExtra("android.provider.extra.APP_PACKAGE", packageName)
         }
+        startActivity(intent)
+    }
+
+    companion object {
+        const val TAG = "MainActivity"
+
+        const val NOTIFICATION_ID = 0
+
+        // Used for Notification Style array and switch statement for Spinner selection.
+        private const val BIG_TEXT_STYLE = "BIG_TEXT_STYLE"
+        private const val BIG_PICTURE_STYLE = "BIG_PICTURE_STYLE"
+        private const val INBOX_STYLE = "INBOX_STYLE"
+        private const val MESSAGING_STYLE = "MESSAGING_STYLE"
+
+        // Collection of notification styles to back ArrayAdapter for Spinner.
+        private val NOTIFICATION_STYLES = arrayOf(
+            BIG_TEXT_STYLE, BIG_PICTURE_STYLE, INBOX_STYLE, MESSAGING_STYLE
+        )
+
+        private val NOTIFICATION_STYLES_DESCRIPTION = arrayOf(
+            "Demos reminder type app using BIG_TEXT_STYLE",
+            "Demos social type app using BIG_PICTURE_STYLE + inline notification response",
+            "Demos email type app using INBOX_STYLE",
+            "Demos messaging app using MESSAGING_STYLE + inline notification responses"
+        )
     }
 }
