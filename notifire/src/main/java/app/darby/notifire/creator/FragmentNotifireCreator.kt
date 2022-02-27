@@ -12,12 +12,14 @@ import app.darby.notifire.style.InboxStyleBuilder
 import app.darby.notifire.style.MessagingStyleBuilder
 
 fun Fragment.notification(
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: Notifire.Builder.() -> Unit,
 ) = withApplicationContext {
     notification(
         applicationContext = it,
+        notificationId,
         smallIconResId,
         channelId,
         block
@@ -25,12 +27,14 @@ fun Fragment.notification(
 }
 
 fun Fragment.notificationAsBigTextStyle(
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: BigTextStyleBuilder.() -> Unit,
 ) = withApplicationContext {
     notificationAsBigTextStyle(
         applicationContext = it,
+        notificationId,
         smallIconResId,
         channelId,
         block
@@ -38,12 +42,14 @@ fun Fragment.notificationAsBigTextStyle(
 }
 
 fun Fragment.notificationAsBigPictureStyle(
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: BigPictureStyleBuilder.() -> Unit,
 ) = withApplicationContext {
     notificationAsBigPictureStyle(
         applicationContext = it,
+        notificationId,
         smallIconResId,
         channelId,
         block
@@ -51,12 +57,14 @@ fun Fragment.notificationAsBigPictureStyle(
 }
 
 fun Fragment.notificationAsInboxStyle(
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: InboxStyleBuilder.() -> Unit,
 ) = withApplicationContext {
     notificationAsInboxStyle(
         applicationContext = it,
+        notificationId,
         smallIconResId,
         channelId,
         block
@@ -64,6 +72,7 @@ fun Fragment.notificationAsInboxStyle(
 }
 
 fun Fragment.notificationAsMessagingStyle(
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     user: Person,
@@ -71,6 +80,7 @@ fun Fragment.notificationAsMessagingStyle(
 ) = withApplicationContext {
     notificationAsMessagingStyle(
         applicationContext = it,
+        notificationId,
         smallIconResId,
         channelId,
         user,

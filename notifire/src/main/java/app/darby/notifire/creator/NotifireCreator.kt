@@ -14,55 +14,65 @@ import app.darby.notifire.style.MessagingStyleBuilder
 @Throws(NotInitializedYetException::class)
 fun notification(
     applicationContext: Context,
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: Notifire.Builder.() -> Unit,
 ): Notifire.Builder {
     return newNotifire(applicationContext, smallIconResId, channelId)
+        .id(notificationId)
         .apply(block)
 }
 
 fun notificationAsBigTextStyle(
     applicationContext: Context,
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: BigTextStyleBuilder.() -> Unit,
 ): BigTextStyleBuilder {
     return newNotifire(applicationContext, smallIconResId, channelId)
+        .id(notificationId)
         .asBigTextStyle()
         .apply(block)
 }
 
 fun notificationAsBigPictureStyle(
     applicationContext: Context,
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: BigPictureStyleBuilder.() -> Unit,
 ): BigPictureStyleBuilder {
     return newNotifire(applicationContext, smallIconResId, channelId)
+        .id(notificationId)
         .asBigPictureStyle()
         .apply(block)
 }
 
 fun notificationAsInboxStyle(
     applicationContext: Context,
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: InboxStyleBuilder.() -> Unit,
 ): InboxStyleBuilder {
     return newNotifire(applicationContext, smallIconResId, channelId)
+        .id(notificationId)
         .asInboxStyle()
         .apply(block)
 }
 
 fun notificationAsMessagingStyle(
     applicationContext: Context,
+    notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     user: Person,
     block: MessagingStyleBuilder.() -> Unit,
 ): MessagingStyleBuilder {
     return newNotifire(applicationContext, smallIconResId, channelId)
+        .id(notificationId)
         .asMessagingStyle(user)
         .apply(block)
 }

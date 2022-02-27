@@ -102,7 +102,7 @@ class Notifire private constructor(
     ) {
         private var id: Int = Int.MAX_VALUE
 
-        fun id(id: Int) {
+        fun id(id: Int) = apply {
             this.id = id
         }
 

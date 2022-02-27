@@ -10,15 +10,63 @@
         android:supportsRtl="true"
         android:allowBackup="true"
         android:theme="@style/Theme.Sample">
+
         <activity
             android:name="app.darby.sample.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".handler.BigTextMainActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_big_text_main"
+            android:taskAffinity="">
+        </activity>
+
+        <activity
+            android:name=".handlers.BigPictureSocialMainActivity"
+            android:label="@string/title_activity_big_picture_main">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
+
+        <activity
+            android:name=".handlers.InboxMainActivity"
+            android:label="@string/title_activity_inbox_main">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
+        <activity
+            android:name=".handlers.MessagingMainActivity"
+            android:label="@string/title_activity_messaging_main">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
+        <service
+            android:name=".handlers.BigTextIntentService"
+            android:exported="false">
+        </service>
+
+        <service
+            android:name=".handlers.MessagingIntentService"
+            android:exported="false">
+        </service>
+
+        <service
+            android:name=".handlers.BigPictureSocialIntentService"
+            android:exported="false">
+        </service>
+
     </application>
 
 </manifest>

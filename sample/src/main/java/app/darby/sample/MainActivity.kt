@@ -1,10 +1,8 @@
 package app.darby.sample
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,10 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
 import app.darby.notifire.Notifire
-import app.darby.notifire.creator.notification
 import app.darby.notifire.creator.notificationAsBigTextStyle
+import app.darby.sample.data.MockDatabase
+import app.darby.sample.handler.BigTextIntentService
+import app.darby.sample.handler.BigTextMainActivity
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        notificationMgr = NotificationManagerCompat.from(applicationContext);
+        notificationMgr = NotificationManagerCompat.from(applicationContext)
         setUpView()
     }
 
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private fun setUpView() {
         viewContainer = findViewById(R.id.viewContainer)
         detailsView = findViewById(R.id.detailsView)
-        findViewById<View>(R.id.launchView).setOnClickListener(::onLaunchClick)
+        findViewById<View>(R.id.launchView).setOnClickListener { onLaunchClick() }
         findViewById<Spinner>(R.id.notificationStyleSpinner).apply {
             adapter = ArrayAdapter(
                 this@MainActivity,
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun onLaunchClick(view: View) {
+    private fun onLaunchClick() {
         if (!notificationMgr.areNotificationsEnabled()) {
             Snackbar
                 .make(
@@ -90,17 +89,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
         // method 2.
-        notification {
-            contentTitle("Subject")
-            contentText("Hello people. It's Notifire!")
-        }
-//
-//        notificationAsBigPictureStyle {
-//
-//        }
-//
-//        notificationAsInboxStyle {
-//
+//        notification {
+//            contentTitle("Subject")
+//            contentText("Hello people. It's Notifire!")
 //        }
 //
 //        val user = Person.Builder().setName("Darby").build()
@@ -109,15 +100,91 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 //        }
     }
 
+    /*
+     * Generates a BIG_TEXT_STYLE Notification that supports both phone/tablet and wear. For devices
+     * on API level 16 (4.1.x - Jelly Bean) and after, displays BIG_TEXT_STYLE. Otherwise, displays
+     * a basic notification.
+     */
     private fun notifyAsBigTextStyle() {
-        Log.d(TAG, "notifying BigTextStyle notification")
+        Log.d(TAG, "notifying BigTextStyle notification message")
 
-        notificationAsBigTextStyle {
-            contentTitle("Subject")
-            contentText("Hello people. It's Notifire!")
-            bigText("BigText texts")
-            bigContentTitle("BigText title")
-            summaryText("BigText summary")
+        val bigTextStyleReminderAppData = MockDatabase.getBigTextStyleData()
+
+        notificationAsBigTextStyle(NOTIFICATION_ID) {
+            // BigTextStyle
+            bigText(bigTextStyleReminderAppData.bigText)
+            bigContentTitle(bigTextStyleReminderAppData.bigContentTitle)
+            summaryText(bigTextStyleReminderAppData.summaryText)
+
+            // General
+            contentTitle(bigTextStyleReminderAppData.contentTitle)
+            contentText(bigTextStyleReminderAppData.contentText)
+
+            // this can be omitted if it's ready set up Notifier initializer (Notifire.initialize)
+            //smallIcon(R.drawable.ic_notification_small_white_24dp)
+
+            largeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_alarm_white_48dp))
+
+            // Set up main Intent for notification.
+            val notifyPendingIntent = PendingIntent.getActivity(
+                this@MainActivity,
+                0,
+                Intent(this@MainActivity, BigTextMainActivity::class.java).apply {
+                    // Sets the Activity to start in a new, empty task
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                },
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            contentIntent(notifyPendingIntent)
+            defaults(NotificationCompat.DEFAULT_ALL)
+            color(ContextCompat.getColor(applicationContext, R.color.design_default_color_primary))
+
+            // SIDE NOTE: Auto-bundling is enabled for 4 or more notifications on API 24+ (N+)
+            // devices and all Wear devices. If you have more than one notification and
+            // you prefer a different summary notification, set a group key and create a
+            // summary notification via
+            //
+            // isGroupSummary(true, GROUP_KEY_YOUR_NAME_HERE)
+
+            category(NotificationCompat.CATEGORY_REMINDER)
+
+            priority(bigTextStyleReminderAppData.priority)
+
+            // Sets lock-screen visibility for 25 and below. For 26 and above, lock screen
+            // visibility is set in the NotificationChannel.
+            visibility(bigTextStyleReminderAppData.channelLockscreenVisibility)
+
+            // Snooze Action.
+            addAction {
+                val snoozeIntent = Intent(this@MainActivity, BigTextIntentService::class.java).also {
+                    it.action = BigTextIntentService.ACTION_SNOOZE
+                }
+                val snoozePendingIntent =
+                    PendingIntent.getService(this@MainActivity, 0, snoozeIntent, 0)
+
+                newAction(
+                    R.drawable.ic_alarm_white_48dp,
+                    "Snooze",
+                    snoozePendingIntent
+                )
+            }
+
+            // Dismiss Action.
+            addAction {
+                val dismissIntent =
+                    Intent(this@MainActivity, BigTextIntentService::class.java).also {
+                        it.action = BigTextIntentService.ACTION_DISMISS
+                    }
+                val dismissPendingIntent =
+                    PendingIntent.getService(this@MainActivity, 0, dismissIntent, 0)
+
+                newAction(
+                    R.drawable.ic_cancel_white_48dp,
+                    "Dismiss",
+                    dismissPendingIntent
+                )
+            }
         }
     }
 
