@@ -110,6 +110,32 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         val bigTextStyleReminderAppData = MockDatabase.getBigTextStyleData()
 
+        // Set up main Intent for notification.
+        val notifyPendingIntent = PendingIntent.getActivity(
+            this@MainActivity,
+            0,
+            Intent(this@MainActivity, BigTextMainActivity::class.java).apply {
+                // Sets the Activity to start in a new, empty task
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        // Snooze Action.
+        val snoozeIntent = Intent(this@MainActivity, BigTextIntentService::class.java).also {
+            it.action = BigTextIntentService.ACTION_SNOOZE
+        }
+        val snoozePendingIntent =
+            PendingIntent.getService(this@MainActivity, 0, snoozeIntent, 0)
+
+        // Dismiss Action.
+        val dismissIntent =
+            Intent(this@MainActivity, BigTextIntentService::class.java).also {
+                it.action = BigTextIntentService.ACTION_DISMISS
+            }
+        val dismissPendingIntent =
+            PendingIntent.getService(this@MainActivity, 0, dismissIntent, 0)
+
         notificationAsBigTextStyle(NOTIFICATION_ID) {
             // BigTextStyle
             bigText(bigTextStyleReminderAppData.bigText)
@@ -119,23 +145,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // General
             contentTitle(bigTextStyleReminderAppData.contentTitle)
             contentText(bigTextStyleReminderAppData.contentText)
-
-            // this can be omitted if it's ready set up Notifier initializer (Notifire.initialize)
-            //smallIcon(R.drawable.ic_notification_small_white_24dp)
-
             largeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_alarm_white_48dp))
-
-            // Set up main Intent for notification.
-            val notifyPendingIntent = PendingIntent.getActivity(
-                this@MainActivity,
-                0,
-                Intent(this@MainActivity, BigTextMainActivity::class.java).apply {
-                    // Sets the Activity to start in a new, empty task
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                },
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-
             contentIntent(notifyPendingIntent)
             defaults(NotificationCompat.DEFAULT_ALL)
             color(ContextCompat.getColor(applicationContext, R.color.design_default_color_primary))
@@ -148,41 +158,23 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // isGroupSummary(true, GROUP_KEY_YOUR_NAME_HERE)
 
             category(NotificationCompat.CATEGORY_REMINDER)
-
             priority(bigTextStyleReminderAppData.priority)
-
-            // Sets lock-screen visibility for 25 and below. For 26 and above, lock screen
-            // visibility is set in the NotificationChannel.
             visibility(bigTextStyleReminderAppData.channelLockscreenVisibility)
 
-            // Snooze Action.
-            addAction {
-                val snoozeIntent = Intent(this@MainActivity, BigTextIntentService::class.java).also {
-                    it.action = BigTextIntentService.ACTION_SNOOZE
-                }
-                val snoozePendingIntent =
-                    PendingIntent.getService(this@MainActivity, 0, snoozeIntent, 0)
-
-                newAction(
-                    R.drawable.ic_alarm_white_48dp,
-                    "Snooze",
-                    snoozePendingIntent
-                )
-            }
-
-            // Dismiss Action.
-            addAction {
-                val dismissIntent =
-                    Intent(this@MainActivity, BigTextIntentService::class.java).also {
-                        it.action = BigTextIntentService.ACTION_DISMISS
-                    }
-                val dismissPendingIntent =
-                    PendingIntent.getService(this@MainActivity, 0, dismissIntent, 0)
-
-                newAction(
-                    R.drawable.ic_cancel_white_48dp,
-                    "Dismiss",
-                    dismissPendingIntent
+            addActions {
+                listOf(
+                    // Snooze Action.
+                    newAction(
+                        R.drawable.ic_alarm_white_48dp,
+                        "Snooze",
+                        snoozePendingIntent
+                    ),
+                    // Dismiss Action.
+                    newAction(
+                        R.drawable.ic_cancel_white_48dp,
+                        "Dismiss",
+                        dismissPendingIntent
+                    )
                 )
             }
         }
