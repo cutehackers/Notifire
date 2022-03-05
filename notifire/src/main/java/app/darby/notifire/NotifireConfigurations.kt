@@ -6,9 +6,10 @@ import androidx.annotation.DrawableRes
  * Notification configurations for default values
  */
 data class NotifireConfigurations internal constructor(
+    // Default small icon resource id
     @DrawableRes var smallIconResId: Int,
-    // The constructed Notification will be posted on this NotificationChannel.
-    var channelId: String,
+    // The constructed Notification will be posted on this NotificationChannel. default channel id
+    val channelId: String,
 ) {
     class Builder {
         @DrawableRes private var smallIconResId: Int? = null

@@ -53,7 +53,7 @@
         </activity>
 
         <service
-            android:name=".handlers.BigTextIntentService"
+            android:name=".handler.BigTextIntentService"
             android:exported="false">
         </service>
 

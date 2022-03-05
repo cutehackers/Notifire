@@ -769,18 +769,21 @@ class Notifire private constructor(
                 .build()
         }
 
+        /**
+         * @param channelId notification channel id
+         */
         fun builder(context: Context, channelId: String): Builder {
             return Builder(context, NotificationCompat.Builder(context, channelId))
         }
 
-        internal fun notify(context: Context, notifire: Notifire): Notifire {
+        fun notify(context: Context, notifire: Notifire): Notifire {
             val manager = NotificationManagerCompat.from(context)
             return notifire.apply {
                 manager.notify(id, notification)
             }
         }
 
-        internal fun notify(context: Context, notifire: Notifire, tag: String?): Notifire {
+        fun notify(context: Context, notifire: Notifire, tag: String?): Notifire {
             val manager = NotificationManagerCompat.from(context)
             return notifire.apply {
                 manager.notify(tag, id, notification)
@@ -788,18 +791,19 @@ class Notifire private constructor(
         }
 
         fun cancel(context: Context, notifire: Notifire) {
-            val manager = NotificationManagerCompat.from(context)
-            manager.cancel(notifire.id)
+            NotificationManagerCompat.from(context).cancel(notifire.id)
+        }
+
+        fun cancel(context: Context, notificationId: Int) {
+            NotificationManagerCompat.from(context).cancel(notificationId)
         }
 
         fun cancel(context: Context, notifire: Notifire, tag: String?) {
-            val manager = NotificationManagerCompat.from(context)
-            manager.cancel(tag, notifire.id)
+            NotificationManagerCompat.from(context).cancel(tag, notifire.id)
         }
 
         fun cancelAll(context: Context) {
-            val manager = NotificationManagerCompat.from(context)
-            manager.cancelAll()
+            NotificationManagerCompat.from(context).cancelAll()
         }
 
         @RequiresApi(Build.VERSION_CODES.R)

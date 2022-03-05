@@ -112,9 +112,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         // Set up main Intent for notification.
         val notifyPendingIntent = PendingIntent.getActivity(
-            this@MainActivity,
+            this,
             0,
-            Intent(this@MainActivity, BigTextMainActivity::class.java).apply {
+            Intent(this, BigTextMainActivity::class.java).apply {
                 // Sets the Activity to start in a new, empty task
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             },
@@ -122,20 +122,21 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         )
 
         // Snooze Action.
-        val snoozeIntent = Intent(this@MainActivity, BigTextIntentService::class.java).also {
+        val snoozeIntent = Intent(this, BigTextIntentService::class.java).also {
             it.action = BigTextIntentService.ACTION_SNOOZE
         }
         val snoozePendingIntent =
-            PendingIntent.getService(this@MainActivity, 0, snoozeIntent, 0)
+            PendingIntent.getService(this, 0, snoozeIntent, 0)
 
         // Dismiss Action.
         val dismissIntent =
-            Intent(this@MainActivity, BigTextIntentService::class.java).also {
+            Intent(this, BigTextIntentService::class.java).also {
                 it.action = BigTextIntentService.ACTION_DISMISS
             }
         val dismissPendingIntent =
-            PendingIntent.getService(this@MainActivity, 0, dismissIntent, 0)
+            PendingIntent.getService(this, 0, dismissIntent, 0)
 
+        // Create a BigTextStyle notification with Notifire extension
         notificationAsBigTextStyle(NOTIFICATION_ID) {
             // BigTextStyle
             bigText(bigTextStyleReminderAppData.bigText)
@@ -177,6 +178,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     )
                 )
             }
+
+            // This last line of code is just to keep the reference of new notification for demo
+            // purpose. In a real world you can implement your own implementation
+            NotifireBuilderCache.builder = this
         }
     }
 
