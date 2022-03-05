@@ -11,6 +11,9 @@
     <string name="title_activity_inbox_main">InboxStyle Main Activity</string>
     <string name="title_activity_messaging_main">MessagingStyle Main Activity</string>
 
+    <string name="reply_label">Reply</string>
+    <string name="reply_name">Me</string>
+
     <string name="main_text_activity_big_text_main">
         This Activity would handle the reminder app\'s functionality.
         \n\nThe notification type for this example was the Big Text Style!

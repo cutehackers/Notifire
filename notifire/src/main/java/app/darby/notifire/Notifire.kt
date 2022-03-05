@@ -714,7 +714,7 @@ class Notifire private constructor(
             title: CharSequence?,
             intent: PendingIntent?,
         ): NotificationCompat.Action {
-            return NotificationCompat.Action.Builder(iconResId, title, intent).build()
+            return newActionBuilder(iconResId, title, intent).build()
         }
 
         fun clearActions() = apply {
@@ -767,6 +767,14 @@ class Notifire private constructor(
             configurations = NotifireConfigurations.builder()
                 .apply(block)
                 .build()
+        }
+
+        fun newActionBuilder(
+            @DrawableRes iconResId: Int,
+            title: CharSequence?,
+            intent: PendingIntent?,
+        ): NotificationCompat.Action.Builder {
+            return NotificationCompat.Action.Builder(iconResId, title, intent)
         }
 
         /**

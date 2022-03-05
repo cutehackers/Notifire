@@ -34,7 +34,6 @@ import java.util.concurrent.TimeUnit
  * Asynchronously handles snooze and dismiss actions for reminder app (and active Notification).
  * Notification for for reminder app uses BigTextStyle.
  */
-@Deprecated("IntentService is subject to all the background execution limits imposed with Android 8.0 (API level 26). Consider using androidx.work.WorkManager or androidx.core.app.JobIntentService, which uses jobs instead of services when running on Android 8.0 or higher.")
 class BigTextIntentService : IntentService("BigTextIntentService") {
 
     override fun onHandleIntent(intent: Intent?) {
