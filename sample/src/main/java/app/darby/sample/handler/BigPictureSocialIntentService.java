@@ -30,11 +30,6 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
 
-import com.example.android.wearable.wear.wearnotifications.GlobalNotificationBuilder;
-import com.example.android.wearable.wear.wearnotifications.MainActivity;
-import com.example.android.wearable.wear.wearnotifications.R;
-import com.example.android.wearable.wear.common.mock.MockDatabase;
-
 /**
  * Asynchronously handles updating social app posts (and active Notification) with comments from
  * user. Notification for social app use BigPictureStyle.

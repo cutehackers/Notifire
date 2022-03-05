@@ -16,16 +16,14 @@ limitations under the License.
 package app.darby.sample.handler
 
 import android.app.IntentService
-import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import app.darby.notifire.Notifire
-import app.darby.notifire.creator.notificationAsBigTextStyle
+import app.darby.notifire.creator.notificationBuilderAsBigTextStyle
 import app.darby.sample.MainActivity
 import app.darby.sample.NotifireBuilderCache
 import app.darby.sample.R
@@ -72,7 +70,11 @@ class BigTextIntentService : IntentService("BigTextIntentService") {
         val builder: Notifire.Builder = NotifireBuilderCache.builder ?: run {
             // Recreate builder from persistent state if app process is killed
             // Note: New builder set globally in the method
-            recreateNotifireBuilderWithBigTextStyle(MainActivity.NOTIFICATION_ID)
+            recreateNotifireBuilderWithBigTextStyle(MainActivity.NOTIFICATION_ID).apply {
+                // This last line of code is just to keep the reference of new notification for demo
+                // purpose. In a real world you can implement your own implementation
+                NotifireBuilderCache.builder = this
+            }
         }
 
         Notifire.cancel(applicationContext, MainActivity.NOTIFICATION_ID)
@@ -123,11 +125,8 @@ class BigTextIntentService : IntentService("BigTextIntentService") {
         val dismissPendingIntent =
             PendingIntent.getService(this, 0, dismissIntent, 0)
 
-        val defaultChannelId = getString(R.string.notification_channel_id, "default")
-
-        return Notifire.builder(applicationContext, defaultChannelId)
+        return notificationBuilderAsBigTextStyle(applicationContext, notificationId)
             // BigTextStyle
-            .asBigTextStyle()
             .bigText(bigTextStyleReminderAppData.bigText)
             .bigContentTitle(bigTextStyleReminderAppData.bigContentTitle)
             .summaryText(bigTextStyleReminderAppData.summaryText)

@@ -11,73 +11,78 @@ import app.darby.notifire.style.BigTextStyleBuilder
 import app.darby.notifire.style.InboxStyleBuilder
 import app.darby.notifire.style.MessagingStyleBuilder
 
+/**
+ * Simple notification builder
+ */
 @Throws(NotInitializedYetException::class)
-fun notification(
+fun notificationBuilder(
     applicationContext: Context,
     notificationId: Int,
     smallIconResId: Int? = null,
-    channelId: String? = null,
-    block: Notifire.Builder.() -> Unit,
+    channelId: String? = null
 ): Notifire.Builder {
-    return newNotifire(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
         .id(notificationId)
-        .apply(block)
 }
 
-fun notificationAsBigTextStyle(
+/**
+ * Big text style notification builder
+ */
+fun notificationBuilderAsBigTextStyle(
     applicationContext: Context,
     notificationId: Int,
     smallIconResId: Int? = null,
-    channelId: String? = null,
-    block: BigTextStyleBuilder.() -> Unit,
+    channelId: String? = null
 ): BigTextStyleBuilder {
-    return newNotifire(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
         .id(notificationId)
         .asBigTextStyle()
-        .apply(block)
 }
 
-fun notificationAsBigPictureStyle(
+/**
+ * Big picture style notification builder
+ */
+fun notificationBuilderAsBigPictureStyle(
     applicationContext: Context,
     notificationId: Int,
     smallIconResId: Int? = null,
-    channelId: String? = null,
-    block: BigPictureStyleBuilder.() -> Unit,
+    channelId: String? = null
 ): BigPictureStyleBuilder {
-    return newNotifire(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
         .id(notificationId)
         .asBigPictureStyle()
-        .apply(block)
 }
 
-fun notificationAsInboxStyle(
+/**
+ * Inbox style notification builder
+ */
+fun notificationBuilderAsInboxStyle(
     applicationContext: Context,
     notificationId: Int,
     smallIconResId: Int? = null,
-    channelId: String? = null,
-    block: InboxStyleBuilder.() -> Unit,
+    channelId: String? = null
 ): InboxStyleBuilder {
-    return newNotifire(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
         .id(notificationId)
         .asInboxStyle()
-        .apply(block)
 }
 
-fun notificationAsMessagingStyle(
+/**
+ * Messaging notification builder
+ */
+fun notificationBuilderAsMessagingStyle(
     applicationContext: Context,
     notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    user: Person,
-    block: MessagingStyleBuilder.() -> Unit,
+    user: Person
 ): MessagingStyleBuilder {
-    return newNotifire(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
         .id(notificationId)
         .asMessagingStyle(user)
-        .apply(block)
 }
 
-private fun newNotifire(
+private fun newNotifireBuilder(
     applicationContext: Context,
     smallIconResId: Int? = null,
     channelId: String? = null,

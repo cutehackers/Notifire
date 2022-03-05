@@ -20,8 +20,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.example.android.wearable.wear.wearnotifications.MainActivity;
-import com.example.android.wearable.wear.wearnotifications.R;
+import app.darby.sample.MainActivity;
+import app.darby.sample.R;
 
 /**
  * Template class meant to include functionality for your Messaging App. (This project's main focus

@@ -33,12 +33,6 @@ import androidx.core.app.RemoteInput;
 import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 
-import com.example.android.wearable.wear.common.mock.MockDatabase;
-import com.example.android.wearable.wear.common.util.NotificationUtil;
-import com.example.android.wearable.wear.wearnotifications.GlobalNotificationBuilder;
-import com.example.android.wearable.wear.wearnotifications.MainActivity;
-import com.example.android.wearable.wear.wearnotifications.R;
-
 /**
  * Asynchronously handles updating messaging app posts (and active Notification) with replies from
  * user in a conversation. Notification for social app use MessagingStyle.

@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name=".handlers.BigPictureSocialMainActivity"
+            android:name=".handler.BigPictureSocialMainActivity"
             android:label="@string/title_activity_big_picture_main">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -37,7 +37,7 @@
 
 
         <activity
-            android:name=".handlers.InboxMainActivity"
+            android:name=".handler.InboxMainActivity"
             android:label="@string/title_activity_inbox_main">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -45,7 +45,7 @@
         </activity>
 
         <activity
-            android:name=".handlers.MessagingMainActivity"
+            android:name=".handler.MessagingMainActivity"
             android:label="@string/title_activity_messaging_main">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -58,12 +58,12 @@
         </service>
 
         <service
-            android:name=".handlers.MessagingIntentService"
+            android:name=".handler.MessagingIntentService"
             android:exported="false">
         </service>
 
         <service
-            android:name=".handlers.BigPictureSocialIntentService"
+            android:name=".handler.BigPictureSocialIntentService"
             android:exported="false">
         </service>
 

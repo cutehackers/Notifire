@@ -11,66 +11,77 @@ import app.darby.notifire.style.BigTextStyleBuilder
 import app.darby.notifire.style.InboxStyleBuilder
 import app.darby.notifire.style.MessagingStyleBuilder
 
+/**
+ * Simple notification for Fragment
+ */
 fun Fragment.notification(
     notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: Notifire.Builder.() -> Unit,
 ) = withApplicationContext {
-    notification(
+    notificationBuilder(
         applicationContext = it,
         notificationId,
         smallIconResId,
-        channelId,
-        block
-    ).notify()
+        channelId
+    ).apply(block).notify()
 }
 
+/**
+ * Big text style notification for Fragment
+ */
 fun Fragment.notificationAsBigTextStyle(
     notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: BigTextStyleBuilder.() -> Unit,
 ) = withApplicationContext {
-    notificationAsBigTextStyle(
+    notificationBuilderAsBigTextStyle(
         applicationContext = it,
         notificationId,
         smallIconResId,
-        channelId,
-        block
-    ).notify()
+        channelId
+    ).apply(block).notify()
 }
 
+/**
+ * Big picture style notification for Fragment
+ */
 fun Fragment.notificationAsBigPictureStyle(
     notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: BigPictureStyleBuilder.() -> Unit,
 ) = withApplicationContext {
-    notificationAsBigPictureStyle(
+    notificationBuilderAsBigPictureStyle(
         applicationContext = it,
         notificationId,
         smallIconResId,
-        channelId,
-        block
-    ).notify()
+        channelId
+    ).apply(block).notify()
 }
 
+/**
+ * Inbox style notification for Fragment
+ */
 fun Fragment.notificationAsInboxStyle(
     notificationId: Int,
     smallIconResId: Int? = null,
     channelId: String? = null,
     block: InboxStyleBuilder.() -> Unit,
 ) = withApplicationContext {
-    notificationAsInboxStyle(
+    notificationBuilderAsInboxStyle(
         applicationContext = it,
         notificationId,
         smallIconResId,
-        channelId,
-        block
-    ).notify()
+        channelId
+    ).apply(block).notify()
 }
 
+/**
+ * Messaging notification for Fragment
+ */
 fun Fragment.notificationAsMessagingStyle(
     notificationId: Int,
     smallIconResId: Int? = null,
@@ -78,14 +89,13 @@ fun Fragment.notificationAsMessagingStyle(
     user: Person,
     block: MessagingStyleBuilder.() -> Unit,
 ) = withApplicationContext {
-    notificationAsMessagingStyle(
+    notificationBuilderAsMessagingStyle(
         applicationContext = it,
         notificationId,
         smallIconResId,
         channelId,
         user,
-        block
-    ).notify()
+    ).apply(block).notify()
 }
 
 private fun <T> Fragment.withApplicationContext(block: (Context) -> T): T? {
