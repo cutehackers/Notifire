@@ -2,7 +2,10 @@
 
 package app.darby.notifire.creator
 
+import android.app.PendingIntent
 import android.content.Context
+import androidx.annotation.DrawableRes
+import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
 import app.darby.notifire.Notifire
 import app.darby.notifire.exception.NotInitializedYetException
@@ -73,13 +76,28 @@ fun notificationBuilderAsInboxStyle(
 fun notificationBuilderAsMessagingStyle(
     applicationContext: Context,
     notificationId: Int,
+    user: Person,
     smallIconResId: Int? = null,
-    channelId: String? = null,
-    user: Person
+    channelId: String? = null
 ): MessagingStyleBuilder {
     return newNotifireBuilder(applicationContext, smallIconResId, channelId)
         .id(notificationId)
         .asMessagingStyle(user)
+}
+
+/**
+ * Messaging notification builder with existing MessagingStyle
+ */
+fun notificationBuilderAsMessagingStyle(
+    applicationContext: Context,
+    notificationId: Int,
+    smallIconResId: Int? = null,
+    channelId: String? = null,
+    allocator: () -> NotificationCompat.MessagingStyle,
+): MessagingStyleBuilder {
+    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
+        .id(notificationId)
+        .asMessagingStyle(allocator)
 }
 
 private fun newNotifireBuilder(
@@ -93,4 +111,12 @@ private fun newNotifireBuilder(
     val config = Notifire.configurations
     return Notifire.builder(applicationContext, channelId ?: config.channelId)
         .smallIcon(smallIconResId ?: config.smallIconResId)
+}
+
+fun newActionBuilder(
+    @DrawableRes iconResId: Int,
+    title: CharSequence?,
+    intent: PendingIntent?,
+): NotificationCompat.Action.Builder {
+    return NotificationCompat.Action.Builder(iconResId, title, intent)
 }

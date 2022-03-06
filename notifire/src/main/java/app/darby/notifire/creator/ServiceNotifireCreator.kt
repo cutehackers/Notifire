@@ -75,14 +75,14 @@ fun Service.notificationAsInboxStyle(
  */
 fun Service.notificationAsMessagingStyle(
     notificationId: Int,
+    user: Person,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    user: Person,
     block: MessagingStyleBuilder.() -> Unit,
 ) = notificationBuilderAsMessagingStyle(
     applicationContext,
     notificationId,
+    user,
     smallIconResId,
-    channelId,
-    user
+    channelId
 ).apply(block).notify()

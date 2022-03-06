@@ -75,14 +75,14 @@ fun Activity.notificationAsInboxStyle(
  */
 fun Activity.notificationAsMessagingStyle(
     notificationId: Int,
+    user: Person,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    user: Person,
     block: MessagingStyleBuilder.() -> Unit,
 ) = notificationBuilderAsMessagingStyle(
     applicationContext,
     notificationId,
+    user,
     smallIconResId,
-    channelId,
-    user
+    channelId
 ).apply(block).notify()

@@ -6,13 +6,17 @@ import app.darby.notifire.Notifire
 
 open class StyleBuilder<out T : NotificationCompat.Style>(
     context: Context,
-    _builder: NotificationCompat.Builder,
+    private val _builder: NotificationCompat.Builder,
     allocator: () -> T,
 ) : Notifire.Builder(context, _builder) {
 
     protected val style: T = allocator()
 
     init {
+        applyStyle()
+    }
+
+    fun applyStyle() = apply {
         _builder.setStyle(style)
     }
 }

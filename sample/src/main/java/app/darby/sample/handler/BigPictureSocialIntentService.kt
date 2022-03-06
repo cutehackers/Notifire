@@ -12,7 +12,7 @@ import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import app.darby.notifire.Notifire
-import app.darby.notifire.Notifire.Companion.newActionBuilder
+import app.darby.notifire.creator.newActionBuilder
 import app.darby.notifire.creator.notificationBuilderAsBigPictureStyle
 import app.darby.sample.MainActivity
 import app.darby.sample.NotifireBuilderCache
@@ -84,8 +84,7 @@ class BigPictureSocialIntentService : IntentService("BigPictureSocialIntentServi
      * Extracts CharSequence created from the RemoteInput associated with the Notification.
      */
     private fun getMessage(intent: Intent): CharSequence? {
-        val remoteInput = RemoteInput.getResultsFromIntent(intent)
-        return remoteInput?.getCharSequence(EXTRA_COMMENT)
+        return RemoteInput.getResultsFromIntent(intent)?.getCharSequence(EXTRA_COMMENT)
     }
 
     /*

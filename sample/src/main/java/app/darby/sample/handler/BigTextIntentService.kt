@@ -40,11 +40,9 @@ class BigTextIntentService : IntentService("BigTextIntentService") {
         Log.d(TAG, "onHandleIntent(): $intent")
 
         if (intent != null) {
-            val action = intent.action
-            if (ACTION_DISMISS == action) {
-                handleActionDismiss()
-            } else if (ACTION_SNOOZE == action) {
-                handleActionSnooze()
+            when (intent.action) {
+                ACTION_DISMISS -> handleActionDismiss()
+                ACTION_SNOOZE -> handleActionSnooze()
             }
         }
     }

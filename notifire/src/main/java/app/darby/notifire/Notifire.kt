@@ -21,6 +21,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
 import androidx.core.content.LocusIdCompat
 import androidx.core.content.pm.ShortcutInfoCompat
+import app.darby.notifire.creator.newActionBuilder
 import app.darby.notifire.style.BigPictureStyleBuilder
 import app.darby.notifire.style.BigTextStyleBuilder
 import app.darby.notifire.style.InboxStyleBuilder
@@ -740,12 +741,27 @@ class Notifire private constructor(
             _builder.addExtras(extras)
         }
 
-        fun notify(): Notifire {
-            return notify(context, Notifire(_builder.build(), id))
+        fun build() = Notifire(_builder.build(), id)
+
+        fun notify(notifire: Notifire): Notifire {
+            return notify(context, notifire)
         }
 
+
+        /**
+         * This method will build Notifire.Builder and then notify created notification wrapped by
+         * Notifre.
+         */
+        fun notify(): Notifire {
+            return notify(context, build())
+        }
+
+        /**
+         * This method will build Notifire.Builder and then notify created notification wrapped by
+         * Notifre.
+         */
         fun notify(tag: String?): Notifire {
-            return notify(context, Notifire(_builder.build(), id), tag)
+            return notify(context, build(), tag)
         }
 
         fun asBigTextStyle() = BigTextStyleBuilder(context, _builder)
@@ -755,35 +771,48 @@ class Notifire private constructor(
         fun asInboxStyle() = InboxStyleBuilder(context, _builder)
 
         fun asMessagingStyle(user: Person) = MessagingStyleBuilder(context, _builder, user)
+
+        fun asMessagingStyle(allocator: () -> NotificationCompat.MessagingStyle) =
+            MessagingStyleBuilder(context, _builder, allocator)
     }
 
     companion object {
+        @JvmStatic
         lateinit var configurations: NotifireConfigurations
 
+        @JvmStatic
         val isConfigurationInitialized: Boolean
             get() = ::configurations.isInitialized
 
+        @JvmStatic
         fun initialize(block: NotifireConfigurations.Builder.() -> Unit) {
             configurations = NotifireConfigurations.builder()
                 .apply(block)
                 .build()
         }
 
-        fun newActionBuilder(
-            @DrawableRes iconResId: Int,
-            title: CharSequence?,
-            intent: PendingIntent?,
-        ): NotificationCompat.Action.Builder {
-            return NotificationCompat.Action.Builder(iconResId, title, intent)
+        // TODO can possibly support as extension inline methods?
+        /**
+         * @person ex) Person.Builder().setName("John").build()
+         */
+        @JvmStatic
+        fun newMessage(
+            text: CharSequence?,
+            timestamp: Long,
+            person: Person?
+        ): NotificationCompat.MessagingStyle.Message {
+            return NotificationCompat.MessagingStyle.Message(text, timestamp, person)
         }
 
         /**
          * @param channelId notification channel id
          */
+        @JvmStatic
         fun builder(context: Context, channelId: String): Builder {
             return Builder(context, NotificationCompat.Builder(context, channelId))
         }
 
+        @JvmStatic
         fun notify(context: Context, notifire: Notifire): Notifire {
             val manager = NotificationManagerCompat.from(context)
             return notifire.apply {
@@ -791,6 +820,7 @@ class Notifire private constructor(
             }
         }
 
+        @JvmStatic
         fun notify(context: Context, notifire: Notifire, tag: String?): Notifire {
             val manager = NotificationManagerCompat.from(context)
             return notifire.apply {
@@ -798,23 +828,28 @@ class Notifire private constructor(
             }
         }
 
+        @JvmStatic
         fun cancel(context: Context, notifire: Notifire) {
             NotificationManagerCompat.from(context).cancel(notifire.id)
         }
 
+        @JvmStatic
         fun cancel(context: Context, notificationId: Int) {
             NotificationManagerCompat.from(context).cancel(notificationId)
         }
 
+        @JvmStatic
         fun cancel(context: Context, notifire: Notifire, tag: String?) {
             NotificationManagerCompat.from(context).cancel(tag, notifire.id)
         }
 
+        @JvmStatic
         fun cancelAll(context: Context) {
             NotificationManagerCompat.from(context).cancelAll()
         }
 
         @RequiresApi(Build.VERSION_CODES.R)
+        @JvmStatic
         fun cancelAsPackage(context: Context, targetPackage: String, tag: String?, id: Int) {
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                     as NotificationManager

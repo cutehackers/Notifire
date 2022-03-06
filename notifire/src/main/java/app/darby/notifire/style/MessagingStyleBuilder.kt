@@ -3,16 +3,24 @@ package app.darby.notifire.style
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
+import app.darby.notifire.Notifire
 
 /**
  * MessagingStyle notification builder
  */
-class MessagingStyleBuilder(context: Context, _builder: NotificationCompat.Builder, user: Person) :
-    StyleBuilder<NotificationCompat.MessagingStyle>(
-        context,
-        _builder,
-        { NotificationCompat.MessagingStyle(user) }
-    ) {
+class MessagingStyleBuilder : StyleBuilder<NotificationCompat.MessagingStyle> {
+
+    constructor(
+        context: Context,
+        _builder: NotificationCompat.Builder,
+        user: Person,
+    ) : super(context, _builder, { NotificationCompat.MessagingStyle(user) })
+
+    constructor(
+        context: Context,
+        _builder: NotificationCompat.Builder,
+        allocator: () -> NotificationCompat.MessagingStyle,
+    ) : super(context, _builder, allocator)
 
     /**
      * Sets the title to be displayed on this conversation. May be set to {@code null}.
@@ -32,8 +40,10 @@ class MessagingStyleBuilder(context: Context, _builder: NotificationCompat.Build
         style.messages
     }
 
-    @Deprecated(message = "deprecated, use addMessage method with Person",
-        replaceWith = ReplaceWith("addMessage(text: CharSequence, timestamp: Long, sender: Person)"))
+    @Deprecated(
+        message = "deprecated, use addMessage method with Person",
+        replaceWith = ReplaceWith("addMessage(text: CharSequence, timestamp: Long, sender: Person)")
+    )
     fun addMessage(text: CharSequence?, timestamp: Long, sender: CharSequence?) = apply {
         style.addMessage(text, timestamp, sender)
     }
@@ -45,6 +55,24 @@ class MessagingStyleBuilder(context: Context, _builder: NotificationCompat.Build
     fun addMessage(message: NotificationCompat.MessagingStyle.Message) = apply {
         style.addMessage(message)
     }
+
+    /**
+     * Add messages
+     * ex)
+     * addMessages {
+     *   listOf(
+     *     newMessage("Visiting the moon again? :P", 1528490643998l, mMe)
+     *     newMessage("HEY, I see my house!", 1528490645998l, participant2).run {
+     *       setData("image/png", resourceToUri(context, R.drawable.earth))
+     *       build()
+     *     }
+     *   )
+     * }
+     */
+    fun addMessages(builder: MessagingStyleBuilder.() -> List<NotificationCompat.MessagingStyle.Message>) =
+        apply {
+            builder().forEach { style.addMessage(it) }
+        }
 
     /**
      * Adds a {@link Message} for historic context in this notification.
@@ -63,7 +91,21 @@ class MessagingStyleBuilder(context: Context, _builder: NotificationCompat.Build
         style.addHistoricMessage(message)
     }
 
+    fun addHistoricMessage(builder: MessagingStyleBuilder.() -> List<NotificationCompat.MessagingStyle.Message>) =
+        apply {
+            builder().forEach { style.addHistoricMessage(it) }
+        }
+
     fun isGroupConversation(isGroupConversation: Boolean) = apply {
         style.isGroupConversation = isGroupConversation
+    }
+
+    companion object {
+        @JvmStatic
+        fun extractMessagingStyleFromNotification(notifire: Notifire): NotificationCompat.MessagingStyle? {
+            return NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(
+                notifire.notification
+            )
+        }
     }
 }

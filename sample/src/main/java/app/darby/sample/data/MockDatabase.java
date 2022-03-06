@@ -27,6 +27,7 @@ import androidx.core.graphics.drawable.IconCompat;
 
 import java.util.ArrayList;
 
+import app.darby.notifire.Notifire;
 import app.darby.sample.R;
 
 /** Mock data for each of the Notification Style Demos. */
@@ -378,15 +379,15 @@ public final class MockDatabase {
             // representing time in milliseconds.
             mMessages.add(
                     // When you are setting an image for a message, text does not display.
-                    new MessagingStyle.Message("", 1528490641998l, participant1)
+                    Notifire.newMessage("", 1528490641998l, participant1)
                             .setData("image/png", resourceToUri(context, R.drawable.earth)));
 
             mMessages.add(
-                    new MessagingStyle.Message(
+                    Notifire.newMessage(
                             "Visiting the moon again? :P", 1528490643998l, mMe));
 
             mMessages.add(
-                    new MessagingStyle.Message("HEY, I see my house!", 1528490645998l, participant2));
+                    Notifire.newMessage("HEY, I see my house!", 1528490645998l, participant2));
 
             // String version of the mMessages above.
             mFullConversation =

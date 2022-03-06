@@ -84,17 +84,17 @@ fun Fragment.notificationAsInboxStyle(
  */
 fun Fragment.notificationAsMessagingStyle(
     notificationId: Int,
+    user: Person,
     smallIconResId: Int? = null,
     channelId: String? = null,
-    user: Person,
     block: MessagingStyleBuilder.() -> Unit,
 ) = withApplicationContext {
     notificationBuilderAsMessagingStyle(
         applicationContext = it,
         notificationId,
+        user,
         smallIconResId,
         channelId,
-        user,
     ).apply(block).notify()
 }
 
