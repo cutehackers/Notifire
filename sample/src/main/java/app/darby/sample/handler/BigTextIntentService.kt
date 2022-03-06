@@ -70,8 +70,6 @@ class BigTextIntentService : IntentService("BigTextIntentService") {
             // Recreate builder from persistent state if app process is killed
             // Note: New builder set globally in the method
             recreateNotifireBuilderWithBigTextStyle(MainActivity.NOTIFICATION_ID).apply {
-                // This last line of code is just to keep the reference of new notification for demo
-                // purpose. In a real world you can implement your own implementation
                 NotifireBuilderCache.builder = this
             }
         }

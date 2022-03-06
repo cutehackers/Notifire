@@ -64,7 +64,12 @@ class BigPictureSocialIntentService : IntentService("BigPictureSocialIntentServi
 
             // Retrieves NotificationCompat.Builder used to create initial Notification
             val builder: Notifire.Builder = NotifireBuilderCache.builder ?: run {
-                recreateNotifireBuilderWithBigPictureStyle(MainActivity.NOTIFICATION_ID)
+                recreateNotifireBuilderWithBigPictureStyle(MainActivity.NOTIFICATION_ID).apply {
+                    // Because we want this to be a new notification (not updating current notification), we
+                    // create a new Builder. Later, we update this same notification, so we need to save this
+                    // Builder globally (as outlined earlier).
+                    NotifireBuilderCache.builder = this
+                }
             }
 
             // Updates active Notification, Adds a line and comment below content in Notification

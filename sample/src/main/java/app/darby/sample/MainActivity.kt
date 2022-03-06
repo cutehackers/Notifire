@@ -179,8 +179,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 )
             }
 
-            // This last line of code is just to keep the reference of new notification for demo
-            // purpose. In a real world you can implement your own implementation
+            // Because we want this to be a new notification (not updating a previous notification), we
+            // create a new Builder. Later, we use the same global builder to get back the notification
+            // we built here for the snooze action, that is, canceling the notification and relaunching
+            // it several seconds later.
             NotifireBuilderCache.builder = this
         }
     }
