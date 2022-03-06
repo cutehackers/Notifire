@@ -2,7 +2,9 @@
 
 package app.darby.notifire.creator
 
+import android.app.Service
 import android.content.Context
+import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
 import androidx.fragment.app.Fragment
 import app.darby.notifire.Notifire
@@ -96,6 +98,38 @@ fun Fragment.notificationAsMessagingStyle(
         smallIconResId,
         channelId,
     ).apply(block).notify()
+}
+
+/**
+ * Messaging notification builder with existing MessagingStyle
+ */
+fun Fragment.notificationBuilderAsMessagingStyle(
+    notificationId: Int,
+    smallIconResId: Int? = null,
+    channelId: String? = null,
+    allocator: () -> NotificationCompat.MessagingStyle,
+    block: MessagingStyleBuilder.() -> Unit
+) = withApplicationContext {
+    notificationBuilderAsMessagingStyle(
+        applicationContext = it,
+        notificationId,
+        smallIconResId,
+        channelId,
+        allocator
+    ).apply(block).notify()
+}
+
+/**
+ * Messaging notification builder from existing notifire object
+ */
+fun Fragment.extractMessagingStyleBuilderFromNotifire(
+    notifire: Notifire,
+    smallIconResId: Int? = null,
+    channelId: String? = null
+): MessagingStyleBuilder? = withApplicationContext {
+    extractMessagingStyleBuilderFromNotifire(
+        it, notifire, smallIconResId, channelId
+    )
 }
 
 private fun <T> Fragment.withApplicationContext(block: (Context) -> T): T? {

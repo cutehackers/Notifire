@@ -100,6 +100,23 @@ fun notificationBuilderAsMessagingStyle(
         .asMessagingStyle(allocator)
 }
 
+/**
+ * Messaging notification builder from existing notifire object
+ */
+fun extractMessagingStyleBuilderFromNotifire(
+    applicationContext: Context,
+    notifire: Notifire,
+    smallIconResId: Int? = null,
+    channelId: String? = null
+): MessagingStyleBuilder? {
+    return MessagingStyleBuilder.extractMessagingStyleFromNotifire(notifire)
+        ?.let { messagingStyle ->
+            newNotifireBuilder(applicationContext, smallIconResId, channelId)
+                .id(notifire.id)
+                .asMessagingStyle { messagingStyle }
+        }
+}
+
 private fun newNotifireBuilder(
     applicationContext: Context,
     smallIconResId: Int? = null,
@@ -120,3 +137,4 @@ fun newActionBuilder(
 ): NotificationCompat.Action.Builder {
     return NotificationCompat.Action.Builder(iconResId, title, intent)
 }
+

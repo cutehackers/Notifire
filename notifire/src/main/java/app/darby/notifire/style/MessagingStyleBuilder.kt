@@ -102,7 +102,7 @@ class MessagingStyleBuilder : StyleBuilder<NotificationCompat.MessagingStyle> {
 
     companion object {
         @JvmStatic
-        fun extractMessagingStyleFromNotification(notifire: Notifire): NotificationCompat.MessagingStyle? {
+        fun extractMessagingStyleFromNotifire(notifire: Notifire): NotificationCompat.MessagingStyle? {
             return NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(
                 notifire.notification
             )

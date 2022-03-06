@@ -3,6 +3,7 @@
 package app.darby.notifire.creator
 
 import android.app.Service
+import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
 import app.darby.notifire.Notifire
 import app.darby.notifire.style.BigPictureStyleBuilder
@@ -86,3 +87,31 @@ fun Service.notificationAsMessagingStyle(
     smallIconResId,
     channelId
 ).apply(block).notify()
+
+/**
+ * Messaging notification builder with existing MessagingStyle
+ */
+fun Service.notificationBuilderAsMessagingStyle(
+    notificationId: Int,
+    smallIconResId: Int? = null,
+    channelId: String? = null,
+    allocator: () -> NotificationCompat.MessagingStyle,
+    block: MessagingStyleBuilder.() -> Unit
+) = notificationBuilderAsMessagingStyle(
+    applicationContext,
+    notificationId,
+    smallIconResId,
+    channelId,
+    allocator
+).apply(block).notify()
+
+/**
+ * Messaging notification builder from existing notifire object
+ */
+fun Service.extractMessagingStyleBuilderFromNotifire(
+    notifire: Notifire,
+    smallIconResId: Int? = null,
+    channelId: String? = null
+): MessagingStyleBuilder? = extractMessagingStyleBuilderFromNotifire(
+    applicationContext, notifire, smallIconResId, channelId
+)

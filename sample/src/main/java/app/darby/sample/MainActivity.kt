@@ -15,7 +15,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import app.darby.notifire.Notifire
+import app.darby.notifire.creator.extractMessagingStyleBuilderFromNotifire
 import app.darby.notifire.creator.notificationAsBigTextStyle
+import app.darby.notifire.creator.notificationAsMessagingStyle
+import app.darby.notifire.style.MessagingStyleBuilder
 import app.darby.sample.data.MockDatabase
 import app.darby.sample.handler.BigTextIntentService
 import app.darby.sample.handler.BigTextMainActivity

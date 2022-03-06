@@ -27,6 +27,7 @@ import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import app.darby.notifire.Notifire
+import app.darby.notifire.creator.extractMessagingStyleBuilderFromNotifire
 import app.darby.notifire.creator.newActionBuilder
 import app.darby.notifire.creator.notificationBuilderAsMessagingStyle
 import app.darby.notifire.style.MessagingStyleBuilder
@@ -91,16 +92,9 @@ class MessagingIntentService : IntentService("MessagingIntentService") {
             val notifire = builder.build()
 
             val messagingStyleBuilder: MessagingStyleBuilder? =
-                MessagingStyleBuilder.extractMessagingStyleFromNotification(notifire)
-                    ?.let { messagingStyle ->
-                        // Create MessagingStyleBuilder with existing messagingStyle
-                        notificationBuilderAsMessagingStyle(
-                            applicationContext,
-                            MainActivity.NOTIFICATION_ID
-                        ) {
-                            messagingStyle
-                        }
-                    }
+                // Create MessagingStyleBuilder with existing messagingStyle
+                extractMessagingStyleBuilderFromNotifire(notifire)
+                    // otherwise use original builder
                     ?: run { builder as? MessagingStyleBuilder }
 
             // Add new message to the MessagingStyle. Set last parameter to null for responses
@@ -112,7 +106,7 @@ class MessagingIntentService : IntentService("MessagingIntentService") {
                     null as Person?
                 )
 
-                // Updates the Notification
+                // Updates the Notification object
                 applyStyle()
 
                 // Pushes out the updated Notification
