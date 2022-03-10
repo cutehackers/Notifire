@@ -647,6 +647,13 @@ class Notifire private constructor(
             _builder.addPerson(uri)
         }
 
+        @Deprecated("deprecated", ReplaceWith("addPeople(person: Person)"))
+        fun addPeople(people: List<String>) {
+            for (person in people) {
+                _builder.addPerson(person)
+            }
+        }
+
         /**
          * Add a person that is relevant to this notification.
          *
@@ -669,6 +676,12 @@ class Notifire private constructor(
          */
         fun addPerson(person: Person) = apply {
             _builder.addPerson(person)
+        }
+
+        fun addPeople(people: List<Person>) = apply {
+            for (person in people) {
+                _builder.addPerson(person)
+            }
         }
 
         fun clearPeople() = apply { _builder.clearPeople() }

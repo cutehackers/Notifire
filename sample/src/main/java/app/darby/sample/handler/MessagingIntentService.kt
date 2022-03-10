@@ -214,7 +214,7 @@ class MessagingIntentService : IntentService("MessagingIntentService") {
             // Note: Messages include the text, timestamp, and sender.
             .addMessages {
                 messagingStyleCommsAppData.messages
-                // Another example to create message
+                // Another example to create messages
                 //listOf(
                 //    newMessage("Sample message", 1L, messagingStyleCommsAppData.me)
                 //)
