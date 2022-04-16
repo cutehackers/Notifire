@@ -23,6 +23,7 @@ import app.darby.notifire.creator.notificationAsBigPictureStyle
 import app.darby.notifire.creator.notificationAsBigTextStyle
 import app.darby.notifire.creator.notificationAsInboxStyle
 import app.darby.notifire.creator.notificationAsMessagingStyle
+import app.darby.notifire.creator.notificationChannel
 import app.darby.sample.data.MockDatabase
 import app.darby.sample.handler.BigPictureSocialIntentService
 import app.darby.sample.handler.BigPictureSocialMainActivity
@@ -121,6 +122,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         val bigTextStyleReminderAppData = MockDatabase.getBigTextStyleData()
 
+        // Create or retrieve notification channel
+        val channelId = getOrCreateNotificationChannel(bigTextStyleReminderAppData)
+
         // Set up main Intent for notification.
         val notifyPendingIntent = PendingIntent.getActivity(
             this,
@@ -148,7 +152,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             PendingIntent.getService(this, 0, dismissIntent, 0)
 
         // Create a BigTextStyle notification with Notifire extension
-        notificationAsBigTextStyle(NOTIFICATION_ID) {
+        notificationAsBigTextStyle(NOTIFICATION_ID, channelId) {
             // BigTextStyle
             bigText(bigTextStyleReminderAppData.bigText)
             bigContentTitle(bigTextStyleReminderAppData.bigContentTitle)
@@ -212,6 +216,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         val bigPictureStyleSocialAppData = MockDatabase.getBigPictureStyleData()
 
+        // Create or retrieve notification channel
+        val channelId = getOrCreateNotificationChannel(bigPictureStyleSocialAppData)
+
         // Set up main Intent for notification
         val mainIntent = Intent(this, BigPictureSocialMainActivity::class.java)
 
@@ -246,7 +253,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
 
         // Create a BigPictureStyle notification with Notifire extension
-        notificationAsBigPictureStyle(NOTIFICATION_ID) {
+        notificationAsBigPictureStyle(NOTIFICATION_ID, channelId) {
             // BigPictureStyle
             bigPicture(
                 BitmapFactory.decodeResource(
@@ -310,6 +317,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         val inboxStyleEmailAppData = MockDatabase.getInboxStyleData()
 
+        // Create or retrieve notification channel
+        val channelId = getOrCreateNotificationChannel(inboxStyleEmailAppData)
+
         // Set up main Intent for notification.
         val mainIntent = Intent(this, InboxMainActivity::class.java)
         TaskStackBuilder.create(this)
@@ -324,7 +334,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         )
 
         // Create a InboxStyle notification with Notifire extension
-        notificationAsInboxStyle(NOTIFICATION_ID) {
+        notificationAsInboxStyle(NOTIFICATION_ID, channelId) {
             // InboxStyle
             bigContentTitle(inboxStyleEmailAppData.bigContentTitle)
             summaryText(inboxStyleEmailAppData.summaryText)
@@ -380,6 +390,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         val messagingStyleCommsAppData = MockDatabase.getMessagingStyleData(applicationContext)
 
+        // Create or retrieve notification channel
+        val channelId = getOrCreateNotificationChannel(messagingStyleCommsAppData)
+
         // Set up main Intent for notification.
         val notifyIntent = Intent(this, MessagingMainActivity::class.java)
         TaskStackBuilder.create(this)
@@ -420,7 +433,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
         // Create a MessagingStyle notification with Notifire extension
-        notificationAsMessagingStyle(NOTIFICATION_ID, messagingStyleCommsAppData.me) {
+        notificationAsMessagingStyle(NOTIFICATION_ID, messagingStyleCommsAppData.me, channelId) {
             // MessagingStyle
             conversationTitle(messagingStyleCommsAppData.contentTitle)
             addMessages {
@@ -478,6 +491,19 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // Builder globally (as outlined earlier).
             NotifireBuilderCache.builder = this
         }
+    }
+
+    /**
+     * Get a notification channel or Create it if not found
+     * @return notification channel id
+     */
+    private fun getOrCreateNotificationChannel(channelData: MockDatabase.MockNotificationData): String {
+        val channel = notificationChannel(channelData.channelId, channelData.channelImportance) {
+            setName(channelData.channelName)
+            setDescription(channelData.channelDescription)
+            setVibrationEnabled(channelData.isChannelEnableVibrate)
+        }
+        return channel.id
     }
 
     private fun notifyWithBuilder() {

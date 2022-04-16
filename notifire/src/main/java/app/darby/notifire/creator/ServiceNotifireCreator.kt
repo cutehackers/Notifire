@@ -22,8 +22,8 @@ fun Service.notification(
 ) = notificationBuilder(
     applicationContext,
     notificationId,
-    smallIconResId,
-    channelId
+    channelId,
+    smallIconResId
 ).apply(block).notify()
 
 /**
@@ -37,8 +37,8 @@ fun Service.notificationAsBigTextStyle(
 ) = notificationBuilderAsBigTextStyle(
     applicationContext,
     notificationId,
-    smallIconResId,
     channelId,
+    smallIconResId,
 ).apply(block).notify()
 
 /**
@@ -52,8 +52,8 @@ fun Service.notificationAsBigPictureStyle(
 ) = notificationBuilderAsBigPictureStyle(
     applicationContext,
     notificationId,
-    smallIconResId,
-    channelId
+    channelId,
+    smallIconResId
 ).apply(block).notify()
 
 /**
@@ -67,8 +67,8 @@ fun Service.notificationAsInboxStyle(
 ) = notificationBuilderAsInboxStyle(
     applicationContext,
     notificationId,
-    smallIconResId,
-    channelId
+    channelId,
+    smallIconResId
 ).apply(block).notify()
 
 /**
@@ -84,8 +84,8 @@ fun Service.notificationAsMessagingStyle(
     applicationContext,
     notificationId,
     user,
-    smallIconResId,
-    channelId
+    channelId,
+    smallIconResId
 ).apply(block).notify()
 
 /**
@@ -100,8 +100,8 @@ fun Service.notificationBuilderAsMessagingStyle(
 ) = notificationBuilderAsMessagingStyle(
     applicationContext,
     notificationId,
-    smallIconResId,
     channelId,
+    smallIconResId,
     allocator
 ).apply(block).notify()
 
@@ -113,5 +113,5 @@ fun Service.extractMessagingStyleBuilderFromNotifire(
     smallIconResId: Int? = null,
     channelId: String? = null
 ): MessagingStyleBuilder? = extractMessagingStyleBuilderFromNotifire(
-    applicationContext, notifire, smallIconResId, channelId
+    applicationContext, notifire, channelId, smallIconResId
 )

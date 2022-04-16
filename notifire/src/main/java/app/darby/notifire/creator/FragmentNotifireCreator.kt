@@ -2,7 +2,6 @@
 
 package app.darby.notifire.creator
 
-import android.app.Service
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
@@ -25,8 +24,8 @@ fun Fragment.notification(
     notificationBuilder(
         applicationContext = it,
         notificationId,
-        smallIconResId,
-        channelId
+        channelId,
+        smallIconResId
     ).apply(block).notify()
 }
 
@@ -42,8 +41,8 @@ fun Fragment.notificationAsBigTextStyle(
     notificationBuilderAsBigTextStyle(
         applicationContext = it,
         notificationId,
-        smallIconResId,
-        channelId
+        channelId,
+        smallIconResId
     ).apply(block).notify()
 }
 
@@ -59,8 +58,8 @@ fun Fragment.notificationAsBigPictureStyle(
     notificationBuilderAsBigPictureStyle(
         applicationContext = it,
         notificationId,
-        smallIconResId,
-        channelId
+        channelId,
+        smallIconResId
     ).apply(block).notify()
 }
 
@@ -76,8 +75,8 @@ fun Fragment.notificationAsInboxStyle(
     notificationBuilderAsInboxStyle(
         applicationContext = it,
         notificationId,
-        smallIconResId,
-        channelId
+        channelId,
+        smallIconResId
     ).apply(block).notify()
 }
 
@@ -95,8 +94,8 @@ fun Fragment.notificationAsMessagingStyle(
         applicationContext = it,
         notificationId,
         user,
-        smallIconResId,
         channelId,
+        smallIconResId,
     ).apply(block).notify()
 }
 
@@ -113,8 +112,8 @@ fun Fragment.notificationBuilderAsMessagingStyle(
     notificationBuilderAsMessagingStyle(
         applicationContext = it,
         notificationId,
-        smallIconResId,
         channelId,
+        smallIconResId,
         allocator
     ).apply(block).notify()
 }
@@ -128,7 +127,7 @@ fun Fragment.extractMessagingStyleBuilderFromNotifire(
     channelId: String? = null
 ): MessagingStyleBuilder? = withApplicationContext {
     extractMessagingStyleBuilderFromNotifire(
-        it, notifire, smallIconResId, channelId
+        it, notifire, channelId, smallIconResId
     )
 }
 

@@ -21,10 +21,10 @@ import app.darby.notifire.style.MessagingStyleBuilder
 fun notificationBuilder(
     applicationContext: Context,
     notificationId: Int,
-    smallIconResId: Int? = null,
-    channelId: String? = null
+    channelId: String? = null,
+    smallIconResId: Int? = null
 ): Notifire.Builder {
-    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, channelId, smallIconResId)
         .id(notificationId)
 }
 
@@ -34,10 +34,10 @@ fun notificationBuilder(
 fun notificationBuilderAsBigTextStyle(
     applicationContext: Context,
     notificationId: Int,
-    smallIconResId: Int? = null,
-    channelId: String? = null
+    channelId: String? = null,
+    smallIconResId: Int? = null
 ): BigTextStyleBuilder {
-    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, channelId, smallIconResId)
         .id(notificationId)
         .asBigTextStyle()
 }
@@ -48,10 +48,10 @@ fun notificationBuilderAsBigTextStyle(
 fun notificationBuilderAsBigPictureStyle(
     applicationContext: Context,
     notificationId: Int,
-    smallIconResId: Int? = null,
-    channelId: String? = null
+    channelId: String? = null,
+    smallIconResId: Int? = null
 ): BigPictureStyleBuilder {
-    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, channelId, smallIconResId)
         .id(notificationId)
         .asBigPictureStyle()
 }
@@ -62,10 +62,10 @@ fun notificationBuilderAsBigPictureStyle(
 fun notificationBuilderAsInboxStyle(
     applicationContext: Context,
     notificationId: Int,
-    smallIconResId: Int? = null,
-    channelId: String? = null
+    channelId: String? = null,
+    smallIconResId: Int? = null
 ): InboxStyleBuilder {
-    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, channelId, smallIconResId)
         .id(notificationId)
         .asInboxStyle()
 }
@@ -77,10 +77,10 @@ fun notificationBuilderAsMessagingStyle(
     applicationContext: Context,
     notificationId: Int,
     user: Person,
-    smallIconResId: Int? = null,
-    channelId: String? = null
+    channelId: String? = null,
+    smallIconResId: Int? = null
 ): MessagingStyleBuilder {
-    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, channelId, smallIconResId)
         .id(notificationId)
         .asMessagingStyle(user)
 }
@@ -91,11 +91,11 @@ fun notificationBuilderAsMessagingStyle(
 fun notificationBuilderAsMessagingStyle(
     applicationContext: Context,
     notificationId: Int,
-    smallIconResId: Int? = null,
     channelId: String? = null,
+    smallIconResId: Int? = null,
     allocator: () -> NotificationCompat.MessagingStyle,
 ): MessagingStyleBuilder {
-    return newNotifireBuilder(applicationContext, smallIconResId, channelId)
+    return newNotifireBuilder(applicationContext, channelId, smallIconResId)
         .id(notificationId)
         .asMessagingStyle(allocator)
 }
@@ -106,12 +106,12 @@ fun notificationBuilderAsMessagingStyle(
 fun extractMessagingStyleBuilderFromNotifire(
     applicationContext: Context,
     notifire: Notifire,
-    smallIconResId: Int? = null,
-    channelId: String? = null
+    channelId: String? = null,
+    smallIconResId: Int? = null
 ): MessagingStyleBuilder? {
     return MessagingStyleBuilder.extractMessagingStyleFromNotifire(notifire)
         ?.let { messagingStyle ->
-            newNotifireBuilder(applicationContext, smallIconResId, channelId)
+            newNotifireBuilder(applicationContext, channelId, smallIconResId)
                 .id(notifire.id)
                 .asMessagingStyle { messagingStyle }
         }
@@ -119,8 +119,8 @@ fun extractMessagingStyleBuilderFromNotifire(
 
 private fun newNotifireBuilder(
     applicationContext: Context,
-    smallIconResId: Int? = null,
     channelId: String? = null,
+    smallIconResId: Int? = null,
 ): Notifire.Builder {
     if (!Notifire.isConfigurationInitialized) {
         throw NotInitializedYetException("Notify.configurations property is not initialized yet.")
@@ -137,4 +137,3 @@ fun newActionBuilder(
 ): NotificationCompat.Action.Builder {
     return NotificationCompat.Action.Builder(iconResId, title, intent)
 }
-

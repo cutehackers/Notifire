@@ -3,7 +3,6 @@
 package app.darby.notifire.creator
 
 import android.app.Activity
-import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
 import app.darby.notifire.Notifire
@@ -17,14 +16,14 @@ import app.darby.notifire.style.MessagingStyleBuilder
  */
 fun Activity.notification(
     notificationId: Int,
-    smallIconResId: Int? = null,
     channelId: String? = null,
+    smallIconResId: Int? = null,
     block: Notifire.Builder.() -> Unit,
 ) = notificationBuilder(
     applicationContext,
     notificationId,
-    smallIconResId,
-    channelId
+    channelId,
+    smallIconResId
 ).apply(block).notify()
 
 /**
@@ -32,14 +31,14 @@ fun Activity.notification(
  */
 fun Activity.notificationAsBigTextStyle(
     notificationId: Int,
-    smallIconResId: Int? = null,
     channelId: String? = null,
+    smallIconResId: Int? = null,
     block: BigTextStyleBuilder.() -> Unit,
 ) = notificationBuilderAsBigTextStyle(
     applicationContext,
     notificationId,
-    smallIconResId,
-    channelId
+    channelId,
+    smallIconResId
 ).apply(block).notify()
 
 /**
@@ -47,14 +46,14 @@ fun Activity.notificationAsBigTextStyle(
  */
 fun Activity.notificationAsBigPictureStyle(
     notificationId: Int,
-    smallIconResId: Int? = null,
     channelId: String? = null,
+    smallIconResId: Int? = null,
     block: BigPictureStyleBuilder.() -> Unit,
 ) = notificationBuilderAsBigPictureStyle(
     applicationContext,
     notificationId,
-    smallIconResId,
-    channelId
+    channelId,
+    smallIconResId
 ).apply(block).notify()
 
 /**
@@ -62,14 +61,14 @@ fun Activity.notificationAsBigPictureStyle(
  */
 fun Activity.notificationAsInboxStyle(
     notificationId: Int,
-    smallIconResId: Int? = null,
     channelId: String? = null,
+    smallIconResId: Int? = null,
     block: InboxStyleBuilder.() -> Unit,
 ) = notificationBuilderAsInboxStyle(
     applicationContext,
     notificationId,
-    smallIconResId,
-    channelId
+    channelId,
+    smallIconResId
 ).apply(block).notify()
 
 /**
@@ -78,15 +77,15 @@ fun Activity.notificationAsInboxStyle(
 fun Activity.notificationAsMessagingStyle(
     notificationId: Int,
     user: Person,
-    smallIconResId: Int? = null,
     channelId: String? = null,
+    smallIconResId: Int? = null,
     block: MessagingStyleBuilder.() -> Unit,
 ) = notificationBuilderAsMessagingStyle(
     applicationContext,
     notificationId,
     user,
-    smallIconResId,
-    channelId
+    channelId,
+    smallIconResId
 ).apply(block).notify()
 
 /**
@@ -94,15 +93,15 @@ fun Activity.notificationAsMessagingStyle(
  */
 fun Activity.notificationAsMessagingStyle(
     notificationId: Int,
-    smallIconResId: Int? = null,
     channelId: String? = null,
+    smallIconResId: Int? = null,
     allocator: () -> NotificationCompat.MessagingStyle,
     block: MessagingStyleBuilder.() -> Unit
 ) = notificationBuilderAsMessagingStyle(
     applicationContext,
     notificationId,
-    smallIconResId,
     channelId,
+    smallIconResId,
     allocator
 ).apply(block).notify()
 
@@ -111,8 +110,8 @@ fun Activity.notificationAsMessagingStyle(
  */
 fun Activity.extractMessagingStyleBuilderFromNotifire(
     notifire: Notifire,
-    smallIconResId: Int? = null,
-    channelId: String? = null
+    channelId: String? = null,
+    smallIconResId: Int? = null
 ): MessagingStyleBuilder? = extractMessagingStyleBuilderFromNotifire(
-    applicationContext, notifire, smallIconResId, channelId
+    applicationContext, notifire, channelId, smallIconResId
 )
