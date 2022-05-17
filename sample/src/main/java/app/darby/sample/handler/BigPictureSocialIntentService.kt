@@ -106,7 +106,7 @@ class BigPictureSocialIntentService : IntentService("BigPictureSocialIntentServi
             this,
             0,
             mainIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         // Set up RemoteInput, so users can input (keyboard and voice) from notification
@@ -122,7 +122,7 @@ class BigPictureSocialIntentService : IntentService("BigPictureSocialIntentServi
                     .apply {
                         action = ACTION_COMMENT
                     }
-                PendingIntent.getService(this, 0, intent, 0)
+                PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_MUTABLE)
             } else {
                 mainPendingIntent
             }

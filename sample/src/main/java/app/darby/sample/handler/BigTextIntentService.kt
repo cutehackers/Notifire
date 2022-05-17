@@ -102,7 +102,7 @@ class BigTextIntentService : IntentService("BigTextIntentService") {
                 // Sets the Activity to start in a new, empty task
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         // Snooze Action.
@@ -110,7 +110,7 @@ class BigTextIntentService : IntentService("BigTextIntentService") {
             it.action = BigTextIntentService.ACTION_SNOOZE
         }
         val snoozePendingIntent =
-            PendingIntent.getService(this, 0, snoozeIntent, 0)
+            PendingIntent.getService(this, 0, snoozeIntent, PendingIntent.FLAG_IMMUTABLE)
 
         // Dismiss Action.
         val dismissIntent =
@@ -118,7 +118,7 @@ class BigTextIntentService : IntentService("BigTextIntentService") {
                 it.action = BigTextIntentService.ACTION_DISMISS
             }
         val dismissPendingIntent =
-            PendingIntent.getService(this, 0, dismissIntent, 0)
+            PendingIntent.getService(this, 0, dismissIntent, PendingIntent.FLAG_IMMUTABLE)
 
         return notificationBuilderAsBigTextStyle(applicationContext, notificationId)
             // BigTextStyle

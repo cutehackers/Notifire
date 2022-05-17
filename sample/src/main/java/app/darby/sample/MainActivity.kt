@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 // Sets the Activity to start in a new, empty task
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             },
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         // Snooze Action.
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             it.action = BigTextIntentService.ACTION_SNOOZE
         }
         val snoozePendingIntent =
-            PendingIntent.getService(this, 0, snoozeIntent, 0)
+            PendingIntent.getService(this, 0, snoozeIntent, PendingIntent.FLAG_IMMUTABLE)
 
         // Dismiss Action.
         val dismissIntent =
@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 it.action = BigTextIntentService.ACTION_DISMISS
             }
         val dismissPendingIntent =
-            PendingIntent.getService(this, 0, dismissIntent, 0)
+            PendingIntent.getService(this, 0, dismissIntent, PendingIntent.FLAG_IMMUTABLE)
 
         // Create a BigTextStyle notification with Notifire extension
         notificationAsBigTextStyle(NOTIFICATION_ID, channelId) {
@@ -230,7 +230,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             this,
             0,
             mainIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         // Set up RemoteInput, so users can input (keyboard and voice) from notification
@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     .apply {
                         action = BigPictureSocialIntentService.ACTION_COMMENT
                     }
-                PendingIntent.getService(this, 0, intent, 0)
+                PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_MUTABLE)
             } else {
                 mainPendingIntent
             }
@@ -330,7 +330,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             this,
             0,
             mainIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         // Create a InboxStyle notification with Notifire extension
@@ -402,8 +402,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             .addNextIntent(notifyIntent)
 
         // Gets a PendingIntent containing the entire back stack
-        val mainPendingIntent =
-            PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val mainPendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            notifyIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         // Set up RemoteInput, so users can input (keyboard and voice) from notification.
 
@@ -427,7 +431,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val intent = Intent(this, MessagingIntentService::class.java)
             intent.action = MessagingIntentService.ACTION_REPLY
-            replyActionPendingIntent = PendingIntent.getService(this, 0, intent, 0)
+            replyActionPendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_MUTABLE)
         } else {
             replyActionPendingIntent = mainPendingIntent
         }

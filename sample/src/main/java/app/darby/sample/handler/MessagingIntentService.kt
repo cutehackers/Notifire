@@ -94,7 +94,7 @@ class MessagingIntentService : IntentService("MessagingIntentService") {
             val messagingStyleBuilder: MessagingStyleBuilder? =
                 // Create MessagingStyleBuilder with existing messagingStyle
                 extractMessagingStyleBuilderFromNotifire(notifire)
-                    // otherwise use original builder
+                // otherwise use original builder
                     ?: run { builder as? MessagingStyleBuilder }
 
             // Add new message to the MessagingStyle. Set last parameter to null for responses
@@ -160,8 +160,11 @@ class MessagingIntentService : IntentService("MessagingIntentService") {
             .addNextIntent(notifyIntent)
 
         // Gets a PendingIntent containing the entire back stack
-        val mainPendingIntent =
-            PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val mainPendingIntent = PendingIntent.getActivity(
+            this,
+            0, notifyIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         // 4. Set up RemoteInput, so users can input (keyboard and voice) from notification.
 
@@ -178,14 +181,14 @@ class MessagingIntentService : IntentService("MessagingIntentService") {
             .build()
 
         // Pending intent =
-        //      API <24 (M and below): activity so the lock-screen presents the auth challenge.
+        //      API < 24 (M and below): activity so the lock-screen presents the auth challenge.
         //      API 24+ (N and above): this should be a Service or BroadcastReceiver.
         val replyActionPendingIntent: PendingIntent
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val intent = Intent(this, MessagingIntentService::class.java)
             intent.action = ACTION_REPLY
-            replyActionPendingIntent = PendingIntent.getService(this, 0, intent, 0)
+            replyActionPendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_MUTABLE)
         } else {
             replyActionPendingIntent = mainPendingIntent
         }
