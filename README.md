@@ -2,7 +2,7 @@
 
 ## Description
 
-Notifire is an android notification builder library that makes it easy to build a notification. And it’s mostly inspired by ‣ project. Basic scheme of the `sample` module is brought from google notification example([https://github.com/android/user-interface-samples/tree/main/Notifications](https://github.com/android/user-interface-samples/tree/main/Notifications)) to test `notifire` module
+Notifire is an android notification builder library that makes it easy to build a notification. And it’s mostly inspired by [notify](https://github.com/Karn/notify) project. Basic scheme of the `sample` module is brought from google notification example([https://github.com/android/user-interface-samples/tree/main/Notifications](https://github.com/android/user-interface-samples/tree/main/Notifications)) to test `notifire` module
 
 ### Initialize notification module
 
